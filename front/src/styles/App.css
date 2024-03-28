@@ -21,15 +21,10 @@
 
 .input-button-container {
   display: flex;
-  margin-left: 110px;
-}
-.input-number-container {
-  display: flex;
-  margin-left: 70px;
 }
 
-.button-box {
-  margin-right: 180px;
+.input-number-container {
+  display: flex;
 }
 
 .input-number {
@@ -39,5 +34,9 @@
 
 .main-block {
   display: block;
-  text-align: center;
+}
+
+.button {
+  width: 100%;
+  background-color: #11f0f0;
 }

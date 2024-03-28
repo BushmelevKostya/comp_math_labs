@@ -9,12 +9,14 @@ function IntervalInput({ value, onChange }) {
     };
 
     return (
-        <input
-            type="number"
-            value={value}
-            onChange={handleInputChange}
-            className="input-number"
-        />
+        <label>
+            {value}
+            <input
+                type="number"
+                onChange={handleInputChange}
+                className="input-number"
+            />
+        </label>
     );
 }
 

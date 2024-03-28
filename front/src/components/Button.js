@@ -2,7 +2,7 @@ import React from "react";
 
 function Button({ value, option, onChange, label }) {
     return (
-        <div>
+        <div className="button">
             <label>
                 <input
                     type="radio"
