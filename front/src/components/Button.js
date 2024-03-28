@@ -1,13 +1,13 @@
 import React from "react";
 
-function Button({ value, option, onChange, label }) {
+function Button({ value, selectedOption, onChange, label }) {
     return (
         <div className="button">
             <label>
                 <input
                     type="radio"
                     value={value}
-                    checked={option === value}
+                    checked={selectedOption === value}
                     onChange={onChange}
                 />
                 {label}

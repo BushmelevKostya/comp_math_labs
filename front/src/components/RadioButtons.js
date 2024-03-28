@@ -1,28 +1,39 @@
 import React, { useState } from 'react';
 import Button from "./Button";
 
-function RadioButtons({values, number}) {
-    const [selectedOption, setSelectedOption] = useState('option1');
+function RadioButtons({values, number, currentGraph, setCurrentGraph}) {
+    const [selectedOption, setSelectedOption] = useState(0);
 
     const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
+        setSelectedOption(parseInt(event.target.value));
+        redrawGraph(event.target.value);
     };
 
     if (number === 1) {
         return (
             <div className="button-box">
-                <Button value={values[0]} option={selectedOption} onChange={handleOptionChange} label={values[0]}/>
-                <Button value={values[1]} option={selectedOption} onChange={handleOptionChange} label={values[1]}/>
-                <Button value={values[2]} option={selectedOption} onChange={handleOptionChange} label={values[2]}/>
+                <Button value={0} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
+                <Button value={1} selectedOption={selectedOption} onChange={handleOptionChange} label={values[1]}/>
+                <Button value={2} selectedOption={selectedOption} onChange={handleOptionChange} label={values[2]}/>
             </div>
         );
     }
 
-    else if (number === 2) {
+    if (number === 2) {
         return (
             <div className="button-box">
-                <Button value={values[0]} option={selectedOption} onChange={handleOptionChange} label={values[0]}/>
-                <Button value={values[1]} option={selectedOption} onChange={handleOptionChange} label={values[1]}/>
+                <Button value={3} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
+                <Button value={4} selectedOption={selectedOption} onChange={handleOptionChange} label={values[1]}/>
+                <Button value={5} selectedOption={selectedOption} onChange={handleOptionChange} label={values[2]}/>
+            </div>
+        );
+    }
+
+    else if (number === 3) {
+        return (
+            <div className="button-box">
+                <Button value={6} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
+                <Button value={7} selectedOption={selectedOption} onChange={handleOptionChange} label={values[1]}/>
             </div>
         );
     }

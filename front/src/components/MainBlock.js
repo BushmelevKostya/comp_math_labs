@@ -6,6 +6,8 @@ import InfoField from "./InfoField";
 import SubmitButton from "./SubmitButton";
 
 function MainBlock({ values, number }) {
+    const [currentGraph1, setCurrentGraph1] = useState(0);
+    const [currentGraph2, setCurrentGraph2] = useState(6);
     const handleSubmit = () => {
         console.log('Form submitted!');
     };
@@ -24,10 +26,10 @@ function MainBlock({ values, number }) {
     if (number === 1) {
         return (
             <div className="main-block">
-                <Graph/>
+                <Graph currentGraph={currentGraph1} setCurrentGraph={setCurrentGraph1}/>
                 <div className="input-button-container">
-                    <RadioButtons values={values[0]} number={number}/>
-                    <RadioButtons values={values[1]} number={number}/>
+                    <RadioButtons values={values[0]} number={1} currentGraph={currentGraph1} setCurrentGraph={setCurrentGraph1}/>
+                    <RadioButtons values={values[1]} number={2} currentGraph={currentGraph1} setCurrentGraph={setCurrentGraph1}/>
                 </div>
                 <div className="input-number-container">
                     <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
@@ -40,9 +42,9 @@ function MainBlock({ values, number }) {
     } else if (number === 2) {
         return (
             <div className="main-block">
-                <Graph/>
+                <Graph currentGraph={currentGraph2} setCurrentGraph={setCurrentGraph2}/>
                 <div className="input-button-container">
-                    <RadioButtons values={values[2]} number={number}/>
+                    <RadioButtons values={values[2]} number={3} currentGraph={currentGraph2} setCurrentGraph={setCurrentGraph2}/>
                 </div>
                 <div className="input-number-container">
                     <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
