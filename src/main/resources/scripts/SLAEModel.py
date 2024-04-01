@@ -1,8 +1,9 @@
 import math
+import sys
+
 import sympy as sp
 import numpy as np
 
-from FileReader import FileReader
 from Model import *
 
 
@@ -19,20 +20,20 @@ class SLAEModel:
                     print(keys[i], " = ", round(arr_var[i], 5), sep="")
                 print()
                 break
-            elif s == "2":
-                while 1:
-                    print("Please enter name of file\n>>>", end=" ")
-                    s = input().strip()
-                    if s == "":
-                        continue
-                    path = "output/" + s
-                    fileReader = FileReader(path)
-                    try:
-                        fileReader.write_answer(keys, arr_var, dim)
-                        break
-                    except FileNotFoundError as e:
-                        print(e.args[0])
-                break
+            # elif s == "2":
+            #     while 1:
+            #         print("Please enter name of file\n>>>", end=" ")
+            #         s = input().strip()
+            #         if s == "":
+            #             continue
+            #         path = "output/" + s
+            #         fileReader = FileReader(path)
+            #         try:
+            #             fileReader.write_answer(keys, arr_var, dim)
+            #             break
+            #         except FileNotFoundError as e:
+            #             print(e.args[0])
+            #     break
             else:
                 print("Wrong value! Please enter:\n"
                       "1 for console output\n"
@@ -120,7 +121,6 @@ class SLAEModel:
         keys = ["x", "y", "count of operation"]
         self.print_answers(dim, [approx[0], approx[1], n], keys)
 
-    import math
 
     def Newton_transcendental_alg(self, approx, error, dim):
         n = 1
@@ -171,3 +171,14 @@ class SLAEModel:
             return False
 
         return True
+
+
+    def linear(self):
+        switch_command = {
+            0: self.bisection_alg([0, 2], [5, 4, 3], 3, 0.01),
+            1: self.bisection_alg([0, 2], [5, 4, 3], 3, 0.01),
+            2: self.bisection_alg([0, 2], [5, 4, 3], 3, 0.01),
+            3: exit,
+        }
+
+        switch_command.get(0, exit)
