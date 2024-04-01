@@ -1,58 +1,49 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React, {useEffect, useRef} from 'react';
+import Desmos from 'desmos';
 
-function Graph( {currentGraph, setCurrentGraph} ) {
-    const chartRef = useRef(null);
-    const chartInstanceRef = useRef(null);
+function Graph({currentGraph, number}) {
+    const desmosContainerRef = useRef(null);
+    let latex;
+    let latex2;
+    if (number === 1) {
+        switch (currentGraph) {
+            case 0:
+                latex = "y = x^3 + 2.84x^2 - 5.606x - 14.766";
+                break;
+            case 1:
+                latex = "y = x^5 - 8*x^2 - 4";
+                break;
+            case 2:
+                latex = "y = 2^x - cos(x) - 3";
+                break;
+            default:
+                console.log(currentGraph);
+        }
+    } else if (number === 2) {
+        switch (currentGraph) {
+            case 6:
+                latex = "x^2 + y^2 - 4 = 0";
+                latex2 = "y - 3x^2 = 0";
+                break;
+            case 7:
+                latex = "6y + x^2 -18 = 0";
+                latex2 = "2x^2 + 0.5y^2 - 8 = 0";
+                break;
+            default:
+                console.log(currentGraph);
+        }
+    }
 
     useEffect(() => {
-        if (chartInstanceRef.current) {
-            chartInstanceRef.current.destroy();
-        }
-
-        const ctx = chartRef.current.getContext('2d');
-        chartInstanceRef.current = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: Array.from({ length: 100 }, (_, i) => i + 1),
-                datasets: [{
-                    label: 'y = x^2',
-                    data: Array.from({ length: 100 }, (_, i) => Math.pow(i + 1, 2)),
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'x'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'y'
-                        }
-                    }
-                }
-            }
-        });
-
+        const calculator = Desmos.GraphingCalculator(desmosContainerRef.current);
+        calculator.setExpression({id: 'graph1', latex: latex});
+        if (number === 2) calculator.setExpression({id: 'graph2', latex: latex2});
         return () => {
-            if (chartInstanceRef.current) {
-                chartInstanceRef.current.destroy();
-            }
+            calculator.destroy();
         };
-    }, []);
+    }, [currentGraph, latex]);
 
-    return (
-        <div>
-            <canvas ref={chartRef} width="400" height="400"></canvas>
-        </div>
-    );
+    return <div ref={desmosContainerRef} style={{width: '540px', height: '295px'}}/>;
 }
 
 export default Graph;

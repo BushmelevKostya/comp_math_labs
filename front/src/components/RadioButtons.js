@@ -6,7 +6,7 @@ function RadioButtons({values, number, currentGraph, setCurrentGraph}) {
 
     const handleOptionChange = (event) => {
         setSelectedOption(parseInt(event.target.value));
-        redrawGraph(event.target.value);
+        setCurrentGraph(parseInt(event.target.value));
     };
 
     if (number === 1) {
