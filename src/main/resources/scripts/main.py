@@ -1,6 +1,7 @@
 import sys
 import sympy
 import numpy
+import math
 
 
 def print_answers(dim, arr_var, keys):
@@ -77,96 +78,96 @@ def create_polinom(num):
     return coefficients
 
 
+def derivative_function1(x, y):
+    return numpy.array([[2 * x, 2 * y], [-6 * x, 1]], dtype=float)
+
+
+def derivative_function2(x, y):
+    return numpy.array([[2 * x, -numpy.sin(y)], [1, -numpy.sin(y)]], dtype=float)
+
+
+def matrix_multiply(matrix1, matrix2):
+    result = [[0, 0], [0, 0]]
+    for i in range(len(matrix1)):
+        for j in range(len(matrix2[0])):
+            for k in range(len(matrix2)):
+                result[i][j] += matrix1[i][k] * matrix2[k][j]
+    return result
+
+
+def equation_1(number, x, y):
+    if number == 6:
+        return x ** 2 + y ** 2 - 4
+    elif number == 7:
+        return x ** 2 + numpy.cos(y) - 4
+
+
+def equation_2(number, x, y):
+    if number == 6:
+        return y - 3 * x ** 2
+    elif number == 7:
+        return numpy.cos(y) + x - 2
+
+
+def inverse_matrix(matrix):
+    det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    if det == 0:
+        raise ValueError("Singular matrix, cannot find inverse")
+    inv_det = 1 / det
+    inv_matrix = [
+        [matrix[1][1] * inv_det, -matrix[0][1] * inv_det],
+        [-matrix[1][0] * inv_det, matrix[0][0] * inv_det]
+    ]
+    return inv_matrix
+
 def system_simple_iteration_method(number, approx, error):
-    x0 = approx[0]
-    y0 = approx[1]
-    max_iter = 1000
-    iteration = 0
+    systems = [
+        (
+            "x^2 + y^2 = 4, y = 3x^2",
+            lambda x, y: x ** 2 + y**2 - 4,
+            lambda x, y: y - 3 * x ** 2,
+            lambda x, y: numpy.matrix([[2*x, 2*y], [-6*x, 1]]),
+        ),
+        (
+            "x^2 + cos y = 4, cos(y) + x = 2",
+            lambda x, y: x**2 + numpy.cos(y) - 4,
+            lambda x, y: numpy.cos(y) + x - 2,
+            lambda x, y: numpy.matrix([[2 * x, - numpy.sin(y)], [1, - numpy.sin(y)]])
+        )
+    ]
 
-    if not check_convergence(number, x0, y0):
-        print("The iteration matrix does not\nsatisfy the convergence condition.")
-        exit()
-
-    for i in range(max_iter):
-        x = f1(x0, y0, number)
-        y = f2(x0, y0, number)
-        if (abs(x - x0) < error) and (abs(y - y0) < error):
-            print(f"x = {x}\ny = {y}")
-            print(f"Iterations = {iteration}")
-            return x, y
-        x0, y0 = x, y
-        iteration += 1
-
-
-def f1(x, y, number):
-    if (number == 6):
-        return x * x + y * y - 4
-    elif (number == 7):
-        return 6 * y + x * x - 18
-    else:
-        print("System out of choice")
-        exit()
-
-
-def f2(x, y, number):
-    if (number == 6):
-        return y - 3 * x * x
-    elif (number == 7):
-        return 2 * x * x + 0.5 * y * y - 8
-    else:
-        print("System out of choice")
-        exit()
-
-
-def check_convergence(number, x0, y0):
-    jacobian_matrix = numpy.array([[f1_dx(number, x0, y0), f1_dy(number, x0, y0)],
-                                   [f2_dx(number, x0, y0), f2_dy(number, x0, y0)]])
-    eigenvalues = numpy.linalg.eigvals(jacobian_matrix)
-    if numpy.all(numpy.abs(eigenvalues) < 1):
-        return True
-    else:
-        return False
-
-
-def f1_dx(number, x, y):
+    system = []
     if number == 6:
-        return 2 * x
+        system = systems[0]
     elif number == 7:
-        return 2 * x
-    else:
-        print("System out of choice")
-        exit()
+        system = systems[1]
 
+    x = approx[0]
+    y = approx[1]
+    eps = error
 
-def f1_dy(number, x, y):
-    if number == 6:
-        return 2 * y
-    elif number == 7:
-        return 6
-    else:
-        print("System out of choice")
-        exit()
-
-
-def f2_dx(number, x, y):
-    if number == 6:
-        return -6 * x
-    elif number == 7:
-        return 4 * x
-    else:
-        print("System out of choice")
-        exit()
-
-
-def f2_dy(number, x, y):
-    if number == 6:
-        return 1
-    elif number == 7:
-        return y
-    else:
-        print("System out of choice")
-        exit()
-
+    iter_num = 0
+    while True:
+        iter_num += 1
+        x_prev = x
+        y_prev = y
+        A = system[3](x, y)
+        b = - numpy.array([system[1](x, y), system[2](x,y)])
+        solution = numpy.linalg.solve(A, b)
+        x = x + solution[0]
+        y = y + solution[1]
+        if abs(x - x_prev) < eps and abs(y - y_prev) < eps:
+            print(f"Vector of errors: ({abs(x - x_prev)}, {abs(y - y_prev)})")
+            break
+        if iter_num > 1000:
+            print("System has no answer on this interval")
+            exit()
+    
+    print(f"x, y = ({x}, {y})")
+    f_val = system[1](x, y)
+    g_val = system[2](x, y)
+    print(f": f = {f_val}, g = {g_val}")
+    print(f"Count of iteration", iter_num)
 
 def main():
     type = str(sys.argv[1])
@@ -175,7 +176,7 @@ def main():
     a = float(sys.argv[4])
     b = float(sys.argv[5])
     error = float(sys.argv[6])
-    print(type, gNum, mNum, a, b, error, "\n")
+    # print(type, gNum, mNum, a, b, error, "\n")
 
     coeffs = []
     dim = 0
