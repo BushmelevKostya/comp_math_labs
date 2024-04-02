@@ -14,14 +14,13 @@ def calc_func(coefficients, dim, dot):
     res = 0
     for i in range(dim):
         res += coefficients[i] * dot ** i
-
     return res
 
 
 def bisection_alg(borders, coefficients, dim, error):
+    temp = [borders[0], borders[1]]
     n = 0
     x = (borders[0] + borders[1]) / 2
-    print("hello")
     while abs(borders[0] - borders[1]) > error and abs(calc_func(coefficients, dim, x)) >= error:
         x = (borders[0] + borders[1]) / 2
         if calc_func(coefficients, dim, borders[0]) * calc_func(coefficients, dim, x) > 0:
@@ -31,10 +30,14 @@ def bisection_alg(borders, coefficients, dim, error):
         n += 1
     x = (borders[0] + borders[1]) / 2
     keys = ["x", "f(x)", "count of operation"]
+    if check_roots(temp, x) == 0:
+        print("Must be exactly one root")
+        return
     print_answers(3, [x, calc_func(coefficients, dim, x), n], keys)
 
 
 def newton_alg(approx, coefficients, dim, error):
+    temp = [approx[0], approx[1]]
     n = 0
     func_values = [calc_func(coefficients, dim, approx[0]), calc_func(coefficients, dim, approx[1])]
     while abs(approx[1] - approx[0]) > error and abs(calc_func(coefficients, dim, approx[1])):
@@ -45,17 +48,20 @@ def newton_alg(approx, coefficients, dim, error):
         func_values[0], func_values[1] = func_values[1], next_y
         n += 1
     keys = ["x", "f(x)", "count of operation"]
+    if check_roots(temp, approx[1]) == 0:
+        print("Must be exactly one root")
+        return
     print_answers(3, [approx[1], calc_func(coefficients, dim, approx[1]), n], keys)
 
 
 def simple_iteration_alg(approx, coefficients, dim, error):
+    temp = [approx[0], approx[1]]
     x = sympy.Symbol('x')
     f = sum(coefficients[i] * x ** i for i in range(len(coefficients)))
     df = sympy.diff(f, x)
     g = x - f / df
     g_func = sympy.lambdify(x, g, 'numpy')
 
-    print("hello")
     xn = approx[1]
     n = 0
     while 1:
@@ -65,7 +71,10 @@ def simple_iteration_alg(approx, coefficients, dim, error):
             break
         xn = xn_plus_1
     keys = ["x", "f(x)", "count of operation"]
-    print_answers(dim, [xn_plus_1, g_func(xn_plus_1), n], keys)
+    if check_roots(temp, xn_plus_1) == 0:
+        print("Must be exactly one root")
+        return
+    print_answers(dim, [xn_plus_1, calc_func(coefficients, dim, xn_plus_1), n], keys)
 
 
 def create_polinom(num):
@@ -120,17 +129,24 @@ def inverse_matrix(matrix):
     ]
     return inv_matrix
 
+
+def check_roots(approx, x):
+    if x < min(approx[0], approx[1]) or x > max(approx[0], approx[1]) or abs(x - min(approx[0], approx[1])) < 0.1 or abs(x - max(approx[0], approx[1])) < 0.1:
+        return 0
+    return 1
+
+
 def system_simple_iteration_method(number, approx, error):
     systems = [
         (
             "x^2 + y^2 = 4, y = 3x^2",
-            lambda x, y: x ** 2 + y**2 - 4,
+            lambda x, y: x ** 2 + y ** 2 - 4,
             lambda x, y: y - 3 * x ** 2,
-            lambda x, y: numpy.matrix([[2*x, 2*y], [-6*x, 1]]),
+            lambda x, y: numpy.matrix([[2 * x, 2 * y], [-6 * x, 1]]),
         ),
         (
             "x^2 + cos y = 4, cos(y) + x = 2",
-            lambda x, y: x**2 + numpy.cos(y) - 4,
+            lambda x, y: x ** 2 + numpy.cos(y) - 4,
             lambda x, y: numpy.cos(y) + x - 2,
             lambda x, y: numpy.matrix([[2 * x, - numpy.sin(y)], [1, - numpy.sin(y)]])
         )
@@ -152,7 +168,7 @@ def system_simple_iteration_method(number, approx, error):
         x_prev = x
         y_prev = y
         A = system[3](x, y)
-        b = - numpy.array([system[1](x, y), system[2](x,y)])
+        b = - numpy.array([system[1](x, y), system[2](x, y)])
         solution = numpy.linalg.solve(A, b)
         x = x + solution[0]
         y = y + solution[1]
@@ -162,12 +178,13 @@ def system_simple_iteration_method(number, approx, error):
         if iter_num > 1000:
             print("System has no answer on this interval")
             exit()
-    
+
     print(f"x, y = ({x}, {y})")
     f_val = system[1](x, y)
     g_val = system[2](x, y)
     print(f": f = {f_val}, g = {g_val}")
     print(f"Count of iteration", iter_num)
+
 
 def main():
     type = str(sys.argv[1])

@@ -90,7 +90,7 @@ class SLAEModel:
                 break
             xn = xn_plus_1
         keys = ["x", "f(x)", "count of operation"]
-        self.print_answers(dim, [xn_plus_1, g_func(xn_plus_1), n], keys)
+        self.print_answers(dim, [xn_plus_1, abs(xn_plus_1 - xn), n], keys)
 
     def simple_iteration_transcendental_alg(self, approx, error):
         n = 1
@@ -171,14 +171,3 @@ class SLAEModel:
             return False
 
         return True
-
-
-    def linear(self):
-        switch_command = {
-            0: self.bisection_alg([0, 2], [5, 4, 3], 3, 0.01),
-            1: self.bisection_alg([0, 2], [5, 4, 3], 3, 0.01),
-            2: self.bisection_alg([0, 2], [5, 4, 3], 3, 0.01),
-            3: exit,
-        }
-
-        switch_command.get(0, exit)
