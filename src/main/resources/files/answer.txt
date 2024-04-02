@@ -1,0 +1,4 @@
+x = 2.31994
+f(x) = -0.00012
+count of operation = 4
+

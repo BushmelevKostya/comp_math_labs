@@ -10,8 +10,13 @@ function MainBlock({ values, number }) {
     const [currentGraph2, setCurrentGraph2] = useState(6);
     const [currentMethod, setCurrentMethod] = useState(3);
     const [answer, setAnswer] = useState('');
+    const [file, setFile] = useState('');
     const handleUpdateInfo = (newInfo) => {
         setAnswer(newInfo);
+    };
+
+    const handleUpdateFile = (newInfo) => {
+        setFile(newInfo);
     };
 
     const [intervalA, setIntervalA] = useState('');
@@ -43,7 +48,8 @@ function MainBlock({ values, number }) {
                     <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
                 </div>
-                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    }/>
+                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={"None"}/>
+                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} />
                 <InfoField value={answer}/>
             </div>
         );
@@ -59,7 +65,8 @@ function MainBlock({ values, number }) {
                     <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
                 </div>
-                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error}/>
+                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error} answer={"None"}/>
+                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} />
                 <InfoField value={answer}/>
             </div>
         );

@@ -186,6 +186,15 @@ def system_simple_iteration_method(number, approx, error):
     print(f"Count of iteration", iter_num)
 
 
+def write_answer(filepath, answer):
+    try:
+        with open(filepath, "w") as file:
+            file.write(answer)
+    except FileNotFoundError:
+        raise FileNotFoundError("This file doesn't exist! Try another name of file")
+    except PermissionError:
+        raise FileNotFoundError("You haven't enough permissions for read this file! Try another name of file")
+
 def main():
     type = str(sys.argv[1])
     gNum = int(sys.argv[2])
@@ -193,29 +202,32 @@ def main():
     a = float(sys.argv[4])
     b = float(sys.argv[5])
     error = float(sys.argv[6])
+    answer = str(sys.argv[7])
     # print(type, gNum, mNum, a, b, error, "\n")
-
-    coeffs = []
-    dim = 0
-    if gNum == 0:
-        coeffs = [-14.766, -5.606, 2.84, 1]
-        dim = 4
-    elif gNum == 1:
-        coeffs = [-4, 0, -8, 0, 0, 1]
-        dim = 6
-    elif gNum == 2:
-        coeffs = create_polinom(1)
-        dim = 6
-    elif gNum == 6:
-        system_simple_iteration_method(gNum, [a, b], error)
-    elif gNum == 7:
-        system_simple_iteration_method(gNum, [a, b], error)
-    if mNum == 3:
-        bisection_alg([a, b], coeffs, dim, error)
-    elif mNum == 4:
-        newton_alg([a, b], coeffs, dim, error)
-    elif mNum == 5:
-        simple_iteration_alg([a, b], coeffs, dim, error)
+    if answer == "None":
+        coeffs = []
+        dim = 0
+        if gNum == 0:
+            coeffs = [-14.766, -5.606, 2.84, 1]
+            dim = 4
+        elif gNum == 1:
+            coeffs = [-4, 0, -8, 0, 0, 1]
+            dim = 6
+        elif gNum == 2:
+            coeffs = create_polinom(1)
+            dim = 6
+        elif gNum == 6:
+            system_simple_iteration_method(gNum, [a, b], error)
+        elif gNum == 7:
+            system_simple_iteration_method(gNum, [a, b], error)
+        if mNum == 3:
+            bisection_alg([a, b], coeffs, dim, error)
+        elif mNum == 4:
+            newton_alg([a, b], coeffs, dim, error)
+        elif mNum == 5:
+            simple_iteration_alg([a, b], coeffs, dim, error)
+    else:
+        write_answer("src\\main\\resources\\files\\answer.txt", answer)
 
 
 if __name__ == "__main__":

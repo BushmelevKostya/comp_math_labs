@@ -30,6 +30,7 @@ public class Lab2Application {
 		String gNum = String.valueOf(request.graphNumber());
 		String mNum = String.valueOf(request.methodNumber());
 		String error = String.valueOf(request.error());
+		String answer = request.answer();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -42,6 +43,7 @@ public class Lab2Application {
 		map.add("leftBorder", a);
 		map.add("rightBorder", b);
 		map.add("inaccuary", error);
+		map.add("answer", answer);
 
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
 

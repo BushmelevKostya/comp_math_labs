@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
-function SubmitButton({ label, updateInfo, intervalA, intervalB, graphNumber, methodNumber, error }) {
+function SubmitButton({ label, updateInfo, intervalA, intervalB, graphNumber, methodNumber, error, answer }) {
     const handleSubmit = () => {
         const data = {
             intervalA: intervalA,
             intervalB: intervalB,
             graphNumber: graphNumber,
             methodNumber: methodNumber,
-            error: error
+            error: error,
+            answer: answer
         };
 
         fetch('http://localhost:8080/submit', {

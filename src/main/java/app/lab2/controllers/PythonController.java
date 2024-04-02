@@ -12,7 +12,7 @@ public class PythonController {
 	public String runPythonScript(@RequestParam("lbname") String lbname, @RequestParam("type") String type,
 	                              @RequestParam("quation") String quation, @RequestParam("method") String method,
 	                              @RequestParam("leftBorder") String leftBorder, @RequestParam("rightBorder") String rightBorder,
-	                              @RequestParam("inaccuary") String inaccuary) {
+	                              @RequestParam("inaccuary") String inaccuary,  @RequestParam("answer") String answer) {
 		try {
 			System.out.println(lbname + " " + type + " " + quation + " " + method + " " + leftBorder + " " + rightBorder + " " + inaccuary);
 			String currentDir = System.getProperty("user.dir");
@@ -26,7 +26,7 @@ public class PythonController {
 				scriptPath = currentDir + "/back/test.py";
 				launchCommand = "python3";
 			}
-			ProcessBuilder processBuilder = new ProcessBuilder(launchCommand, scriptPath, type, quation, method, leftBorder, rightBorder, inaccuary);
+			ProcessBuilder processBuilder = new ProcessBuilder(launchCommand, scriptPath, type, quation, method, leftBorder, rightBorder, inaccuary, answer);
 			Process process = processBuilder.start();
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -38,7 +38,7 @@ public class PythonController {
 			
 			int exitCode = process.waitFor();
 			System.out.println(output);
-			System.out.println(scriptPath);
+//			System.out.println(scriptPath);
 			return output.toString();
 			
 		} catch (IOException | InterruptedException e) {
