@@ -26,8 +26,8 @@ function Graph({currentGraph, number}) {
                 latex2 = "y - 3x^2 = 0";
                 break;
             case 7:
-                latex = "6y + x^2 -18 = 0";
-                latex2 = "2x^2 + 0.5y^2 - 8 = 0";
+                latex = "x^2 + cos(y) = 4";
+                latex2 = "cos(y) + x = 2";
                 break;
             default:
                 console.log(currentGraph);
@@ -43,7 +43,7 @@ function Graph({currentGraph, number}) {
         };
     }, [currentGraph, latex]);
 
-    return <div ref={desmosContainerRef} style={{width: '540px', height: '295px'}}/>;
+    return <div ref={desmosContainerRef} style={{width: '650px', height: '400px'}}/>;
 }
 
 export default Graph;

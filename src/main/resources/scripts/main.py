@@ -176,7 +176,7 @@ def system_simple_iteration_method(number, approx, error):
             print(f"Vector of errors: ({abs(x - x_prev)}, {abs(y - y_prev)})")
             break
         if iter_num > 1000:
-            print("System has no answer on this interval")
+            print("System has no answer around this start value")
             exit()
 
     print(f"x, y = ({x}, {y})")
