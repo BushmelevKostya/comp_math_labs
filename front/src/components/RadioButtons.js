@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from "./Button";
 
 function RadioButtons({values, number, currentGraph, setCurrentGraph}) {
@@ -27,9 +27,7 @@ function RadioButtons({values, number, currentGraph, setCurrentGraph}) {
                 <Button value={5} selectedOption={selectedOption} onChange={handleOptionChange} label={values[2]}/>
             </div>
         );
-    }
-
-    else if (number === 3) {
+    } else if (number === 3) {
         return (
             <div className="button-box">
                 <Button value={6} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
