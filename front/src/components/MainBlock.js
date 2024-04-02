@@ -61,8 +61,8 @@ function MainBlock({ values, number }) {
                     <RadioButtons values={values[2]} number={3} currentGraph={currentGraph2} setCurrentGraph={setCurrentGraph2}/>
                 </div>
                 <div className="input-number-container">
-                    <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
-                    <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
+                    <IntervalInput value={"x0: "} onChange={handleIntervalAChange}/>
+                    <IntervalInput value={"y0: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
                 </div>
                 <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error} answer={"None"}/>
