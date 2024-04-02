@@ -43,7 +43,7 @@ function Graph({currentGraph, number}) {
         };
     }, [currentGraph, latex]);
 
-    return <div ref={desmosContainerRef} style={{width: '650px', height: '400px'}}/>;
+    return <div ref={desmosContainerRef} style={{width: '600px', height: '350px'}}/>;
 }
 
 export default Graph;

@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("../public/img/fon_girl.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 .App-header {
   background-color: #282c34;
   display: flex;
@@ -28,7 +37,7 @@
 }
 
 .input-number {
-  margin-right: 100px;
+  margin-right: 80px;
   text-align: right;
 }
 
@@ -39,4 +48,8 @@
 .button {
   width: 100%;
   background-color: #11f0f0;
+}
+
+.input-text {
+  margin-right: 10px;
 }
