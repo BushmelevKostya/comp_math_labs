@@ -16,6 +16,7 @@ function MainBlock({ values, number }) {
 
     const [intervalA, setIntervalA] = useState('');
     const [intervalB, setIntervalB] = useState('');
+    const [error, setError] = useState('');
 
     const handleIntervalAChange = (newValue) => {
         setIntervalA(newValue);
@@ -23,6 +24,10 @@ function MainBlock({ values, number }) {
 
     const handleIntervalBChange = (newValue) => {
         setIntervalB(newValue);
+    };
+
+    const handleErrorChange = (newValue) => {
+        setError(newValue);
     };
 
     if (number === 1) {
@@ -36,8 +41,9 @@ function MainBlock({ values, number }) {
                 <div className="input-number-container">
                     <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
                     <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
+                    <IntervalInput value={"error: "} onChange={handleErrorChange}/>
                 </div>
-                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod}/>
+                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    }/>
                 <InfoField value={answer}/>
             </div>
         );
@@ -51,8 +57,9 @@ function MainBlock({ values, number }) {
                 <div className="input-number-container">
                     <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
                     <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
+                    <IntervalInput value={"error: "} onChange={handleErrorChange}/>
                 </div>
-                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2}/>
+                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error}/>
                 <InfoField value={answer}/>
             </div>
         );
