@@ -31,6 +31,7 @@ public class Lab2Application {
 		String mNum = String.valueOf(request.methodNumber());
 		String error = String.valueOf(request.error());
 		String answer = request.answer();
+		String filepath = request.filepath();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -44,6 +45,7 @@ public class Lab2Application {
 		map.add("rightBorder", b);
 		map.add("inaccuary", error);
 		map.add("answer", answer);
+		map.add("filepath", filepath);
 
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
 

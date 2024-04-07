@@ -4,6 +4,7 @@ import RadioButtons from "./RadioButtons";
 import IntervalInput from "./IntervalInput";
 import InfoField from "./InfoField";
 import SubmitButton from "./SubmitButton";
+import TextInput from "./TextInput";
 
 function MainBlock({ values, number }) {
     const [currentGraph1, setCurrentGraph1] = useState(0);
@@ -11,6 +12,7 @@ function MainBlock({ values, number }) {
     const [currentMethod, setCurrentMethod] = useState(3);
     const [answer, setAnswer] = useState('');
     const [file, setFile] = useState('');
+    const [filepath, setFilepath] = useState('');
     const handleUpdateInfo = (newInfo) => {
         setAnswer(newInfo);
     };
@@ -35,6 +37,10 @@ function MainBlock({ values, number }) {
         setError(newValue);
     };
 
+    const handleFilepathChange = (newValue) => {
+        setFilepath(newValue);
+    };
+
     if (number === 1) {
         return (
             <div className="main-block">
@@ -47,9 +53,10 @@ function MainBlock({ values, number }) {
                     <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
                     <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
+                    <TextInput value={"filepath: "} onChange={handleFilepathChange}/>
                 </div>
-                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={"None"}/>
-                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} />
+                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={"None"} filepath={filepath}/>
+                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} filepath={"None"}/>
                 <InfoField value={answer}/>
             </div>
         );
@@ -64,9 +71,10 @@ function MainBlock({ values, number }) {
                     <IntervalInput value={"x0: "} onChange={handleIntervalAChange}/>
                     <IntervalInput value={"y0: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
+                    <TextInput value={"filepath: "} onChange={handleFilepathChange}/>
                 </div>
-                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error} answer={"None"}/>
-                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} />
+                <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error} answer={"None"} filepath={filepath}/>
+                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} filepath={"None "}/>
                 <InfoField value={answer}/>
             </div>
         );

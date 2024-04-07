@@ -185,6 +185,40 @@ def system_simple_iteration_method(number, approx, error):
     print(f": f = {f_val}, g = {g_val}")
     print(f"Count of iteration", iter_num)
 
+def read_vars(filepath, dim):
+    try:
+
+        with open(filepath, "r") as file:
+            if dim != 1:
+                data = list(map(float, file.readlines()[0].replace(",", ".").strip().split(" ")))
+            else:
+                data = list(map(float, file.readlines()[1].replace(",", ".").strip().split(" ")))
+            if len(data) < dim:
+                raise IndexError
+        return data
+    except FileNotFoundError:
+        print("This file doesn't exist! Try another name of file")
+    except PermissionError:
+        print("You haven't enough permissions for read this file! Try another name of file")
+    except ValueError:
+        print("Wrong type in variables!")
+    except IndexError:
+        print("Data in variables is not valid")
+
+def read_dim(filepath):
+    try:
+        with open(filepath, "r") as file:
+            data = float(file.readline())
+        return data
+    except FileNotFoundError:
+        raise FileNotFoundError("This file doesn't exist! Try another name of file")
+    except PermissionError:
+        raise FileNotFoundError("You haven't enough permissions for read this file! Try another name of file")
+    except ValueError:
+        raise FileNotFoundError("Wrong type in dimension!")
+    except IndexError:
+        raise FileNotFoundError("Data in dimension is not valid")
+
 
 def write_answer(filepath, answer):
     try:
@@ -199,11 +233,21 @@ def main():
     type = str(sys.argv[1])
     gNum = int(sys.argv[2])
     mNum = int(sys.argv[3])
-    a = float(sys.argv[4])
-    b = float(sys.argv[5])
-    error = float(sys.argv[6])
+    filepath = "src\\main\\resources\\files\\input.txt" + str(sys.argv[8])
+    if sys.argv[4] == "" or sys.argv[5] == "" or sys.argv[6] == "":
+        data = read_vars(filepath, 1)
+        a = data[0]
+        b = data[1]
+        error = read_dim(filepath)
+    else:
+        a = float(sys.argv[4])
+        b = float(sys.argv[5])
+        error = float(sys.argv[6])
     answer = str(sys.argv[7])
     # print(type, gNum, mNum, a, b, error, "\n")
+    if error < 0:
+        print("Error must be positive!")
+        return
     if answer == "None":
         coeffs = []
         dim = 0

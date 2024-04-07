@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SubmitButton({ label, updateInfo, intervalA, intervalB, graphNumber, methodNumber, error, answer }) {
+function SubmitButton({ label, updateInfo, intervalA, intervalB, graphNumber, methodNumber, error, answer, filepath }) {
     const handleSubmit = () => {
         const data = {
             intervalA: intervalA,
@@ -8,7 +8,8 @@ function SubmitButton({ label, updateInfo, intervalA, intervalB, graphNumber, me
             graphNumber: graphNumber,
             methodNumber: methodNumber,
             error: error,
-            answer: answer
+            answer: answer,
+            filepath: filepath
         };
 
         fetch('http://localhost:8080/submit', {
