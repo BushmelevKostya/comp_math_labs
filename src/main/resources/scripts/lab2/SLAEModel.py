@@ -1,10 +1,9 @@
 import math
-import sys
 
 import sympy as sp
 import numpy as np
 
-from Model import *
+from scripts.lab2.Model import *
 
 
 class SLAEModel:
