@@ -25,13 +25,16 @@ function RadioButtons({values, number, currentGraph, setCurrentGraph}) {
                 <Button value={3} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
                 <Button value={4} selectedOption={selectedOption} onChange={handleOptionChange} label={values[1]}/>
                 <Button value={5} selectedOption={selectedOption} onChange={handleOptionChange} label={values[2]}/>
+                <Button value={6} selectedOption={selectedOption} onChange={handleOptionChange} label={values[3]}/>
+                <Button value={7} selectedOption={selectedOption} onChange={handleOptionChange} label={values[4]}/>
             </div>
         );
     } else if (number === 3) {
         return (
             <div className="button-box">
-                <Button value={6} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
-                <Button value={7} selectedOption={selectedOption} onChange={handleOptionChange} label={values[1]}/>
+                <Button value={8} selectedOption={selectedOption} onChange={handleOptionChange} label={values[0]}/>
+                <Button value={9} selectedOption={selectedOption} onChange={handleOptionChange} label={values[1]}/>
+                <Button value={10} selectedOption={selectedOption} onChange={handleOptionChange} label={values[2]}/>
             </div>
         );
     }

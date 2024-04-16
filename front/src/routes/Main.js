@@ -3,7 +3,7 @@ import Title from "../components/Title";
 import MainBlock from "../components/MainBlock";
 
 function Main() {
-    const values = [["f(x) = x^3 + 2.84x^2-5.606x-14.766", "f(x) = x^5 - 8*x^2 - 4", "2^x - cos(x) - 3"], ["bisection", "secant", "simple iteration"], ["f(x, y) = x^2 + y^2 -4, g(x, y) = y - 3 * x^2", "f(x, y) = 6 * y + x ** 2 - 18 , g(x, y) = 2 * x ** 2 + 0.5 * y ** 2 - 8"]];
+    const values = [["f(x) = 3x^3 + x^2 - x + 1", "f(x) = x^4 - 5x^2 + 4", "f(x) = -x^3 - x^2 - x - 1"], ["left_rectangle", "right_rectangle", "middle_rectangle", "trapezoid", "simpson"], ["f(x) = 1 / (1 - x)", "f(x) = 1 / x ** 0.5", "f(x) = ln(x)"]];
     return (
         <div className="App">
             <header className="App-header">

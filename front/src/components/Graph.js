@@ -8,26 +8,27 @@ function Graph({currentGraph, number}) {
     if (number === 1) {
         switch (currentGraph) {
             case 0:
-                latex = "y = x^3 + 2.84x^2 - 5.606x - 14.766";
+                latex = "y = 3x^3 + x^2 - x + 1";
                 break;
             case 1:
-                latex = "y = x^5 - 8*x^2 - 4";
+                latex = "y = x^4 - 5x^2 + 4";
                 break;
             case 2:
-                latex = "y = 2^x - cos(x) - 3";
+                latex = "y = -x^3 - x^2 - x - 1";
                 break;
             default:
                 console.log(currentGraph);
         }
     } else if (number === 2) {
         switch (currentGraph) {
-            case 6:
-                latex = "x^2 + y^2 - 4 = 0";
-                latex2 = "y - 3x^2 = 0";
+            case 8:
+                latex = "f(x) = 1 / (1 - x)";
                 break;
-            case 7:
-                latex = "x^2 + cos(y) = 4";
-                latex2 = "cos(y) + x = 2";
+            case 9:
+                latex = "f(x) = \\frac{1}{\\sqrt{x}}";
+                break;
+            case 10:
+                latex = "f(x) = \\ln(x)";
                 break;
             default:
                 console.log(currentGraph);
@@ -37,7 +38,6 @@ function Graph({currentGraph, number}) {
     useEffect(() => {
         const calculator = Desmos.GraphingCalculator(desmosContainerRef.current);
         calculator.setExpression({id: 'graph1', latex: latex});
-        if (number === 2) calculator.setExpression({id: 'graph2', latex: latex2});
         return () => {
             calculator.destroy();
         };

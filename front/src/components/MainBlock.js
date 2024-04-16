@@ -53,10 +53,10 @@ function MainBlock({ values, number }) {
                     <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
                     <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
-                    <TextInput value={"filepath: "} onChange={handleFilepathChange}/>
+                    {/*<TextInput value={"filepath: "} onChange={handleFilepathChange}/>*/}
                 </div>
                 <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={"None"} filepath={filepath}/>
-                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} filepath={"None"}/>
+                {/*<SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} filepath={"None"}/>*/}
                 <InfoField value={answer}/>
             </div>
         );
@@ -68,13 +68,13 @@ function MainBlock({ values, number }) {
                     <RadioButtons values={values[2]} number={3} currentGraph={currentGraph2} setCurrentGraph={setCurrentGraph2}/>
                 </div>
                 <div className="input-number-container">
-                    <IntervalInput value={"x0: "} onChange={handleIntervalAChange}/>
-                    <IntervalInput value={"y0: "} onChange={handleIntervalBChange}/>
+                    <IntervalInput value={"a: "} onChange={handleIntervalAChange}/>
+                    <IntervalInput value={"b: "} onChange={handleIntervalBChange}/>
                     <IntervalInput value={"error: "} onChange={handleErrorChange}/>
-                    <TextInput value={"filepath: "} onChange={handleFilepathChange}/>
+                    {/*<TextInput value={"filepath: "} onChange={handleFilepathChange}/>*/}
                 </div>
                 <SubmitButton label="Submit" updateInfo={handleUpdateInfo} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph2} methodNumber={currentGraph2} error={error} answer={"None"} filepath={filepath}/>
-                <SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} filepath={"None "}/>
+                {/*<SubmitButton label="Save to file" updateInfo={handleUpdateFile} intervalA={intervalA} intervalB={intervalB} graphNumber={currentGraph1} methodNumber={currentMethod} error={error    } answer={answer} filepath={"None "}/>*/}
                 <InfoField value={answer}/>
             </div>
         );
