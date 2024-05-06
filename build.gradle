@@ -154,3 +154,55 @@ task alt {
         }
     }
 }
+
+task gitCheckoutLoop(type: Exec) {
+    commandLine 'git', 'rev-list', '--max-parents=0', 'HEAD'
+    standardOutput = new ByteArrayOutputStream()
+    ext.revisionList = { ->
+        return standardOutput.toString().trim().split('\n').reverse()
+    }
+}
+
+task generateDiff(type: Exec) {
+    def currentRevision = 'HEAD'
+    def nextRevision = 'HEAD^'
+
+    def outputFile = file("$buildDir/diff.txt")
+
+    commandLine 'git', 'diff', currentRevision, nextRevision
+    standardOutput = new ByteArrayOutputStream()
+
+    doLast {
+        outputFile.withOutputStream { outputStream ->
+            outputStream.write(standardOutput.toByteArray())
+        }
+    }
+}
+
+task history(type: JavaCompile) {
+    //отлавливает ошибку при компиляции
+    options.compilerArgs << "-Xlint:all"
+    options.fork = true
+    options.failOnError = true
+    doLast {
+        task gitCheckoutFirstRevision(dependsOn: gitCheckoutLoop) {
+            doLast {
+                def revisions = gitCheckoutLoop.revisionList()
+                for (def revision in revisions) {
+                    exec {
+                        commandLine 'git', 'checkout', revision
+                    }
+                    try {
+                        exec {
+                            compileJava
+                            generateDiff
+                        }
+                        break
+                    } catch (Exception e) {
+                        continue
+                    }
+                }
+            }
+        }
+    }
+}
