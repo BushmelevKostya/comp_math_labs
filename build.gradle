@@ -61,7 +61,7 @@ task buildJar(type: Jar) {
     dependsOn compileJava, copyResources
     from "$dirBuild/classes"
     archiveFileName = 'app.jar'
-    destinationDirectory = file("dirBuild")
+    destinationDirectory = file("$dirBuild")
     manifest {
         attributes(
                 'Built-By': System.properties['user.name'],
@@ -137,3 +137,20 @@ task getLatestRevisions(type: Exec) {
     }
 }
 
+task alt {
+    dependsOn build
+    doLast {
+        fileTree("$dirBuild/classes").include("**/*.class").each { file ->
+            def content = file.text
+            content = content.replaceAll("url", "RESTTEMPLATE")
+            content = content.replaceAll("SubmitRequest", "SR")
+            file.write(content)
+        }
+
+        jar {
+            from "$dirBuild/classes"
+            archiveFileName = 'alt-program.jar'
+            destinationDirectory = file("$dirBuild/libs")
+        }
+    }
+}
