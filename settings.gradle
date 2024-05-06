@@ -30,4 +30,6 @@ ext {
 
     docsJar = 'docs.jar'
     revisionsZip = 'revisions.zip'
+
+    lang = 'messages_ru.properties'
 }
