@@ -106,3 +106,34 @@ task buildAndTest(dependsOn: ['build', 'test']) {
     group = 'verification'
     description = 'Builds and runs all tests'
 }
+
+task getLatestRevisions(type: Exec) {
+    commandLine 'git', 'stash', 'push', '--', 'src/main/java'
+    commandLine 'git', 'checkout', 'HEAD~1', '--', 'src/main/java'
+    task('buildJar1', type: Jar) {
+        dependsOn compileJava
+        archiveFileName = 'app-HEAD1.jar'
+        destinationDirectory = file("$dirBuild")
+    }
+    commandLine 'git', 'checkout', 'HEAD~2', '--', 'src/main/java'
+    task('buildJar2', type: Jar) {
+        dependsOn compileJava
+        archiveFileName = 'app-HEAD2.jar'
+        destinationDirectory = file("$dirBuild")
+    }
+    commandLine 'git', 'checkout', 'HEAD', '--', 'src/main/java'
+    commandLine 'git', 'stash', 'pop'
+    doLast {
+        task revisionArchive(type: Zip) {
+            from("$dirBuild") {
+                include 'app-HEAD1.jar', 'app-HEAD2.jar'
+            }
+            archiveFileName = 'revisions.zip'
+            destinationDirectory = file("$dirBuild")
+        }
+        doLast {
+            revisionArchive.execute()
+        }
+    }
+}
+
