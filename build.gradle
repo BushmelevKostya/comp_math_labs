@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'app'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.2'
 
 java {
     sourceCompatibility = '17'
@@ -21,6 +21,44 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+apply from: 'settings.gradle'
+
+task createManifest(type: Jar) {
+    dependsOn jar
+    manifest {
+        attributes(
+                'Built-By': System.properties['user.name'],
+                'Project-version': version
+        )
+    }
+    destinationDirectory = file("$dirBuild/meta")
+    archiveFileName = 'MANIFEST.MF'
+}
+
+task createDirectories {
+    doLast {
+        mkdir("$dirBuild/classes")
+        mkdir("$dirBuild/war-content")
+        mkdir("$dirBuild/meta")
+        mkdir("$dirBuild/docs")
+    }
+}
+
+compileJava {
+    dependsOn createDirectories
+    destinationDirectory = file("$dirBuild/classes")
+    source = file("src/main/java")
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('scp', Exec) {
+    dependsOn build
+    description = 'Transfer the built project via SCP to a selected server'
+    commandLine 'scp', "$dirBuild/app.war", 's367950@se.ifmo.ru:s367950/lab3'
+}
+
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 }

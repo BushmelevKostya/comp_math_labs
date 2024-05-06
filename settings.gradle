@@ -1,1 +1,33 @@
-rootProject.name = 'lab2'
+ext {
+    projectVersion = '1.0'
+    manifestVersion = '1.0'
+    userName = 'kostya'
+
+    fileName = 'my'
+
+    dirDependencies = 'libs'
+    dirBuild = 'build'
+    dirMeta = 'META-INF'
+    dirClass = "${dirBuild}/classes"
+    dirDocs = 'docs'
+    dirWarContent = "${dirBuild}/${fileName}-${projectVersion}"
+    dirWarContentWebInf = "${dirWarContent}/WEB-INF"
+    dirWarLib = "${dirWarContentWebInf}/lib"
+    dirSrc = 'src/main'
+    dirSrcTest = 'src/test'
+    dirSrcJava = "${dirSrc}/java"
+    dirSrcRes = "${dirSrc}/resources"
+    dirSrcWebapp = "${dirSrc}/webapp"
+    dirBin = "${dirBuild}/test"
+    dirTestOutput = 'output'
+
+    fileManifest = 'MANIFEST.MF'
+    fileJarHead1 = "${dirBuild}/${fileName}_HEAD1.jar"
+    fileJarHead2 = "${dirBuild}/${fileName}_HEAD2.jar"
+    fileJar = "${dirBuild}/${fileName}.jar"
+    fileWar = "${dirBuild}/${fileName}.war"
+    fileWebXml = "${dirWarContentWebInf}/web.xml"
+
+    docsJar = 'docs.jar'
+    revisionsZip = 'revisions.zip'
+}
