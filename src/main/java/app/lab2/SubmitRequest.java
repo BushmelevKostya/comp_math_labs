@@ -1,3 +1,7 @@
 package app.lab2;
 
-public record SubmitRequest(String intervalA, String intervalB, int graphNumber, int methodNumber, String error, String answer, String filepath) {}
+import java.lang.reflect.Array;
+import java.util.List;
+import java.util.Map;
+
+public record SubmitRequest(List<Map<String, Double>> pairs) {}

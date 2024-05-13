@@ -1,39 +1,73 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Desmos from 'desmos';
 
-function Graph({currentGraph, number}) {
+function Graph({data}) {
     const desmosContainerRef = useRef(null);
-    let latex;
-    let latex2;
-    if (number === 1) {
-        switch (currentGraph) {
-            case 0:
-                latex = "y = 3x^3 + x^2 - x + 1";
-                break;
-            case 1:
-                latex = "y = x^4 - 5x^2 + 4";
-                break;
-            case 2:
-                latex = "y = -x^3 - x^2 - x - 1";
-                break;
-            default:
-                console.log(currentGraph);
+    const [latex, setLatex] = useState('');
+    useEffect(() => {
+        updateGraph(data);
+    }, [data]);
+
+    const updateGraph = (data) => {
+        let line = data.split('\n').find(line => line.includes('approximation'));
+
+        if (line) {
+            let word = line.split(' ')[0];
+            let a0, a1, a2, a3
+            switch (word) {
+                case "Linear":
+                    line = data.split('\n').find(line => line.includes('a:'));
+                    a0 = line.replace("a: ", "")
+                    line = data.split('\n').find(line => line.includes('b:'));
+                    a1 = line.replace("b: ", "")
+                    setLatex(a0 + "*x" + "+ (" + a1 + ")")
+                    break
+                case "Polynomial_2":
+                    line = data.split('\n').find(line => line.includes('a0'));
+                    a0 = line.replace("a0: ", "")
+                    line = data.split('\n').find(line => line.includes('a1'));
+                    a1 = line.replace("a1: ", "")
+                    line = data.split('\n').find(line => line.includes('a2'));
+                    a2 = line.replace("a2: ", "")
+                    setLatex(a0 + "+" + "(" + a1 + "x" + ")" + "+" + "(" + a2 + "x^2" + ")")
+                    break
+                case "Polynomial_3":
+                    line = data.split('\n').find(line => line.includes('a0'));
+                    a0 = line.replace("a0: ", "")
+                    line = data.split('\n').find(line => line.includes('a1'));
+                    a1 = line.replace("a1: ", "")
+                    line = data.split('\n').find(line => line.includes('a2'));
+                    a2 = line.replace("a2: ", "")
+                    line = data.split('\n').find(line => line.includes('a3'));
+                    a3 = line.replace("a3: ", "")
+                    setLatex(a0 + "+" + "(" + a1 + "x" + ")" + "+" + "(" + a2 + "x^2" + ")" + "+" + "(" + a3 + "x^3" + ")")
+                    break
+                case "Power":
+                    line = data.split('\n').find(line => line.includes('a:'));
+                    a0 = line.replace("a: ", "")
+                    line = data.split('\n').find(line => line.includes('b:'));
+                    a1 = line.replace("b: ", "")
+                    setLatex(a0 + "*x^" + "(" + a1 + ")")
+                    break
+                case "Exponential":
+                    line = data.split('\n').find(line => line.includes('a:'));
+                    a0 = line.replace("a: ", "")
+                    line = data.split('\n').find(line => line.includes('b:'));
+                    a1 = line.replace("b: ", "")
+                    setLatex(`${a0} \\cdot e^{${a1}x}`)
+                    break
+                case "Logarithmic":
+                    line = data.split('\n').find(line => line.includes('a:'));
+                    a0 = line.replace("a: ", "")
+                    line = data.split('\n').find(line => line.includes('b:'));
+                    a1 = line.replace("b: ", "")
+                    setLatex(`${a0} \\cdot \\ln{x} + ${a1}`);
+                    break
+                default:
+                    setLatex("")
+            }
         }
-    } else if (number === 2) {
-        switch (currentGraph) {
-            case 8:
-                latex = "f(x) = 1 / (1 - x)";
-                break;
-            case 9:
-                latex = "f(x) = \\frac{1}{\\sqrt{x}}";
-                break;
-            case 10:
-                latex = "f(x) = \\ln(x)";
-                break;
-            default:
-                console.log(currentGraph);
-        }
-    }
+    };
 
     useEffect(() => {
         const calculator = Desmos.GraphingCalculator(desmosContainerRef.current);
@@ -41,7 +75,7 @@ function Graph({currentGraph, number}) {
         return () => {
             calculator.destroy();
         };
-    }, [currentGraph, latex]);
+    }, [latex]);
 
     return <div ref={desmosContainerRef} style={{width: '600px', height: '350px'}}/>;
 }

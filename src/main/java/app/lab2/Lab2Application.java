@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Map;
+
 @SpringBootApplication
 @RestController
 public class Lab2Application {
@@ -25,28 +28,14 @@ public class Lab2Application {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/submit")
 	public String submit(@RequestBody SubmitRequest request) {
-		String a = request.intervalA();
-		String b = request.intervalB();
-		String gNum = String.valueOf(request.graphNumber());
-		String mNum = String.valueOf(request.methodNumber());
-		String error = String.valueOf(request.error());
-		String answer = request.answer();
-		String filepath = request.filepath();
+		List<Map<String, Double>> pairs = request.pairs();
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-		MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
-		map.add("lbname", "value");
-		map.add("type", "true");
-		map.add("quation", gNum);
-		map.add("method", mNum);
-		map.add("leftBorder", a);
-		map.add("rightBorder", b);
-		map.add("inaccuary", error);
-		map.add("answer", answer);
-		map.add("filepath", filepath);
-
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("pairs", pairs.toString());
+		System.out.println(pairs);
+		
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
 
 		String url = "http://localhost:8080/api/run-python-script";
