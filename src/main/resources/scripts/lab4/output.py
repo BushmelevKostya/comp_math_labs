@@ -10,18 +10,43 @@ def print_best_answer(answers, best_num):
     elif best_num == 1:
         print("Polynomial_2 approximation is the best method!")
         polinom_2_output(answers[best_num])
+        print("Linear determination coefficient is: ", round(answers[0][5], 3))
+        print("Polynomial_3 determination coefficient is: ", round(answers[2][4], 3))
+        print("Power determination coefficient is: ", round(answers[3][4], 3))
+        print("Exponential determination coefficient is: ", round(answers[4][4], 3))
+        print("Logarithmic determination coefficient is: ", round(answers[5][4], 3))
     elif best_num == 2:
         print("Polynomial_3 approximation is the best method!")
         polinom_3_output(answers[best_num])
+        print("Linear determination coefficient is: ", round(answers[0][5], 3))
+        print("Polynomial_2 determination coefficient is: ", round(answers[1][4], 3))
+        print("Power determination coefficient is: ", round(answers[3][4], 3))
+        print("Exponential determination coefficient is: ", round(answers[4][4], 3))
+        print("Logarithmic determination coefficient is: ", round(answers[5][4], 3))
     elif best_num == 3:
         print("Power approximation is the best method!")
         power_output(answers[best_num])
+        print("Linear determination coefficient is: ", round(answers[0][5], 3))
+        print("Polynomial_2 determination coefficient is: ", round(answers[1][4], 3))
+        print("Polynomial_3 determination coefficient is: ", round(answers[2][4], 3))
+        print("Exponential determination coefficient is: ", round(answers[4][4], 3))
+        print("Logarithmic determination coefficient is: ", round(answers[5][4], 3))
     elif best_num == 4:
         print("Exponential approximation is the best method!")
         power_output(answers[best_num])
+        print("Linear determination coefficient is: ", round(answers[0][5], 3))
+        print("Polynomial_2 determination coefficient is: ", round(answers[1][4], 3))
+        print("Polynomial_3 determination coefficient is: ", round(answers[2][4], 3))
+        print("Power determination coefficient is: ", round(answers[3][4], 3))
+        print("Logarithmic determination coefficient is: ", round(answers[5][4], 3))
     elif best_num == 5:
         print("Logarithmic approximation is the best method!")
         power_output(answers[best_num])
+        print("Linear determination coefficient is: ", round(answers[0][5], 3))
+        print("Polynomial_2 determination coefficient is: ", round(answers[1][4], 3))
+        print("Polynomial_3 determination coefficient is: ", round(answers[2][4], 3))
+        print("Power determination coefficient is: ", round(answers[3][4], 3))
+        print("Exponential determination coefficient is: ", round(answers[4][4], 3))
 
 
 def linear_output(answers):

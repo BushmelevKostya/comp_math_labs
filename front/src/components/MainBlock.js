@@ -3,7 +3,6 @@ import Graph from "./Graph";
 import SubmitButton from "./lab4/SubmitButton";
 import TableInput from "./lab4/TableInput";
 import TextOutput from "./lab4/TextOutput";
-import FileButton from "./lab4/FileButton";
 
 function MainBlock() {
     const [inputValues, setInputValues] = useState(
@@ -55,7 +54,7 @@ function MainBlock() {
                 <TextOutput text={outputText}/>
             </div>
             <div className="graph-block">
-                <Graph data={outputText}/>
+                <Graph data={outputText} inputValues={inputValues}/>
             </div>
         </div>
     );
