@@ -2,6 +2,11 @@ def print_best_answer(answers, best_num):
     if best_num == 0:
         print("Linear approximation is the best method!")
         linear_output(answers[best_num])
+        print("Polynomial_2 determination coefficient is: ", round(answers[1][4], 3))
+        print("Polynomial_3 determination coefficient is: ", round(answers[2][4], 3))
+        print("Power determination coefficient is: ", round(answers[3][4], 3))
+        print("Exponential determination coefficient is: ", round(answers[4][4], 3))
+        print("Logarithmic determination coefficient is: ", round(answers[5][4], 3))
     elif best_num == 1:
         print("Polynomial_2 approximation is the best method!")
         polinom_2_output(answers[best_num])

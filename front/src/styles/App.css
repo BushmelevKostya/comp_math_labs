@@ -42,7 +42,7 @@ body {
 }
 
 .main-block {
-  display: block;
+  display: flex;
 }
 
 .button {

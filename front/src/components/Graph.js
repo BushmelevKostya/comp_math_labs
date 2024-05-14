@@ -47,7 +47,7 @@ function Graph({data}) {
                     a0 = line.replace("a: ", "")
                     line = data.split('\n').find(line => line.includes('b:'));
                     a1 = line.replace("b: ", "")
-                    setLatex(a0 + "*x^" + "(" + a1 + ")")
+
                     break
                 case "Exponential":
                     line = data.split('\n').find(line => line.includes('a:'));

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Graph from "./Graph";
 import SubmitButton from "./lab4/SubmitButton";
 import TableInput from "./lab4/TableInput";
@@ -7,7 +7,7 @@ import FileButton from "./lab4/FileButton";
 
 function MainBlock() {
     const [inputValues, setInputValues] = useState(
-        Array(12).fill(0).map(() => ({ x: 0, y: 0 }))
+        Array(12).fill(0).map(() => ({x: 0, y: 0}))
     );
     const [outputText, setOutputText] = useState('');
 
@@ -33,7 +33,7 @@ function MainBlock() {
                 const content = event.target.result;
                 const data = content.split('\n').map(line => {
                     const [x, y] = line.split(',');
-                    return { x: parseFloat(x), y: parseFloat(y) };
+                    return {x: parseFloat(x), y: parseFloat(y)};
                 });
                 setInputValues(data);
             };
@@ -46,13 +46,17 @@ function MainBlock() {
 
     return (
         <div className="main-block">
-            <div className="input-number-container">
-                <TableInput handleInputChange={handleInputChange} inputValues={inputValues} />
+            <div className="text-block">
+                <div className="input-number-container">
+                    <TableInput handleInputChange={handleInputChange} inputValues={inputValues}/>
+                </div>
+                <button onClick={handleFileButtonClick}>Upload</button>
+                <SubmitButton inputValues={inputValues} updateInfo={updateInfo}/>
+                <TextOutput text={outputText}/>
             </div>
-            <button onClick={handleFileButtonClick}>Upload</button>
-            <SubmitButton inputValues={inputValues} updateInfo={updateInfo} />
-            <TextOutput text={outputText} />
-            <Graph data={outputText}/>
+            <div className="graph-block">
+                <Graph data={outputText}/>
+            </div>
         </div>
     );
 }
