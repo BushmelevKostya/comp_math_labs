@@ -9,6 +9,7 @@ function MainBlock() {
         Array(12).fill(0).map(() => ({x: 0, y: 0}))
     );
     const [outputText, setOutputText] = useState('');
+    const [errorText, setErrorText] = useState('');
 
     const handleInputChange = (index, field, value) => {
         const newInputValues = [...inputValues];
@@ -18,6 +19,7 @@ function MainBlock() {
 
     const updateInfo = (data) => {
         setOutputText(data);
+        setErrorText('')
     };
 
     const handleFileButtonClick = () => {
@@ -29,12 +31,21 @@ function MainBlock() {
             const reader = new FileReader();
 
             reader.onload = (event) => {
-                const content = event.target.result;
-                const data = content.split('\n').map(line => {
-                    const [x, y] = line.split(',');
-                    return {x: parseFloat(x), y: parseFloat(y)};
-                });
-                setInputValues(data);
+                try {
+                    const content = event.target.result;
+                    const data = content.split('\n').map(line => {
+                        const [x, y] = line.split(',');
+                        if (x !== undefined && y !== undefined) {
+                            return { x: parseFloat(x), y: parseFloat(y) };
+                        } else {
+                            throw new Error('Invalid data format in the file.');
+                        }
+                    });
+                    setInputValues(data);
+                    setErrorText('')
+                } catch (error) {
+                    setErrorText('Error reading file');
+                }
             };
 
             reader.readAsText(file);
@@ -51,6 +62,7 @@ function MainBlock() {
                 </div>
                 <button onClick={handleFileButtonClick}>Upload</button>
                 <SubmitButton inputValues={inputValues} updateInfo={updateInfo}/>
+                {errorText && <div className="error-message">{errorText}</div>}
                 <TextOutput text={outputText}/>
             </div>
             <div className="graph-block">

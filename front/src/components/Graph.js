@@ -11,7 +11,10 @@ function Graph({data, inputValues}) {
 
     const updateGraph = (data) => {
         let line = data.split('\n').find(line => line.includes('approximation'));
-        let points = inputValues.map(point => `(${point.x},${point.y})`).join(',');
+        let points = inputValues
+            .filter(point => point.x !== '' && point.y !== '')
+            .map(point => `(${point.x},${point.y})`)
+            .join(',');
 
         if (line) {
             let word = line.split(' ')[0];

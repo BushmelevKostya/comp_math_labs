@@ -1,9 +1,10 @@
 import React from 'react';
 
 const SubmitButton = ({inputValues, updateInfo}) => {
+    const filteredInputValues = inputValues.filter(pair => pair.x !== '' && pair.y !== '');
     const handleSubmit = () => {
         const data = {
-            pairs: inputValues
+            pairs: filteredInputValues
         };
 
         fetch('http://localhost:8080/submit', {
