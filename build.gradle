@@ -95,10 +95,8 @@ task myClean(type: Delete) {
 
 tasks.register('scp', Exec) {
     dependsOn build
-    description = 'Передать собранный проект через SCP на выбранный сервер'
     commandLine 'ssh', '-p', '2222', '-L', '5433:localhost:5432', 's367950@se.ifmo.ru', '&&', 'scp', '-P', '2222', '-o', 'StrictHostKeyChecking=no', "$dirBuild/app.war", 'localhost:5433:s367950/lab3'
 }
-
 
 
 bootJar {
@@ -158,57 +156,94 @@ task alt {
     }
 }
 
-task gitCheckoutLoop(type: Exec) {
-    commandLine 'git', 'rev-list', '--max-parents=0', 'HEAD'
-    standardOutput = new ByteArrayOutputStream()
-    ext.revisionList = { ->
-        return standardOutput.toString().trim().split('\n').reverse()
-    }
-}
-
-task generateDiff(type: Exec) {
-    def currentRevision = 'HEAD'
-    def nextRevision = 'HEAD^'
-
-    def outputFile = file("$dirBuild/diff.txt")
-
-    commandLine 'git', 'diff', currentRevision, nextRevision
-    standardOutput = new ByteArrayOutputStream()
-
+task history {
     doLast {
-        outputFile.withOutputStream { outputStream ->
-            outputStream.write(standardOutput.toByteArray())
+        def success = false
+        def diffResult = ""
+        def outputStream
+        def count = 0
+        def commit = 'HEAD'
+        def prevCommit = commit + '^'
+
+        try {
+            exec {
+                workingDir projectDir
+                commandLine 'cmd', '/c', 'gradlew', 'compileJava'
+            }
+            success = true
+        } catch (Exception e) {
+            println "Compile error: ${e.message}"
+            success = false
         }
-    }
-}
+        println "Compile result: $success"
 
-task history(type: JavaCompile) {
-    //catch error in compile
-    options.compilerArgs << "-Xlint:all"
-    options.fork = true
-    options.failOnError = true
-    doLast {
-        task gitCheckoutFirstRevision(dependsOn: gitCheckoutLoop) {
-            doLast {
-                def revisions = gitCheckoutLoop.revisionList()
-                for (def revision in revisions) {
+        if (!success) {
+            def diffFile = file("$dirBuild/diff.txt")
+            def successfullyLoaded = false
+            def maxAttempts = 30
+
+            while (!successfullyLoaded && count < maxAttempts) {
+                if (count == 0) {
+                    outputStream = new ByteArrayOutputStream()
                     exec {
-                        commandLine 'git', 'checkout', revision
+                        commandLine 'git', 'diff'
+                        workingDir projectDir
+                        standardOutput = outputStream
                     }
-                    try {
-                        exec {
-                            compileJava
-                            generateDiff
-                        }
-                        break
-                    } catch (Exception ignored) {
-
+                    diffResult = outputStream.toString()
+                    count = 1
+                    exec {
+                        commandLine 'git', 'reset', '--hard', commit
+                        workingDir projectDir
+                        ignoreExitValue true
+                    }
+                } else {
+                    exec {
+                        commandLine 'git', 'diff', prevCommit, commit
+                        workingDir projectDir
+                        standardOutput = outputStream
+                    }
+                    diffResult = outputStream.toString()
+                    exec {
+                        commandLine 'git', 'reset', '--hard', prevCommit
+                        workingDir projectDir
+                        ignoreExitValue true
                     }
                 }
+
+                try {
+                    exec {
+                        workingDir projectDir
+                        commandLine 'cmd', '/c', 'gradlew', 'compileJava'
+                    }
+                    success = true
+                } catch (Exception e) {
+                    println "Compile error: ${e.message}"
+                    success = false
+                }
+
+                if (!success) {
+                    println "Failed to compile project, retrying..."
+                    commit = prevCommit
+                    prevCommit += '^'
+                    count++
+                } else {
+                    println "Project compiled successfully, diff in ${diffFile}"
+                    successfullyLoaded = true
+                    def outputFile = new File("diff.txt")
+                    outputFile.write(diffResult)
+                }
             }
+
+            if (!successfullyLoaded) {
+                throw new GradleException("Failed to find a working revision in the Git repository")
+            }
+        } else {
+            println "Not necessary to load previous revision: project compiled successfully"
         }
     }
 }
+
 
 task changeLocalization {
     doLast {
