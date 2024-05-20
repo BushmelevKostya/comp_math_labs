@@ -93,8 +93,75 @@ task createModifiedJar(type: Jar) {
     dependsOn compileModifiedJava
 }
 
+task team {
+    doLast {
+        def revList = "git rev-list --max-count=3 HEAD".execute().text.trim().split('\n')
+        if (revList.size() < 3) {
+            throw new GradleException("Ќедостаточно ревизий в репозитории")
+        }
+        def rev1 = revList[1]
+        def rev2 = revList[2]
+
+        def rev1Dir = file("$dirBuild/rev1")
+        def rev2Dir = file("$dirBuild/rev2")
+
+        rev1Dir.deleteDir()
+        rev2Dir.deleteDir()
+        rev1Dir.mkdirs()
+        rev2Dir.mkdirs()
+
+        exec {
+            commandLine 'git', 'clone', '.', rev1Dir
+        }
+        exec {
+            workingDir rev1Dir
+            commandLine 'git', 'checkout', rev1
+        }
+
+        exec {
+            commandLine 'git', 'clone', '.', rev2Dir
+        }
+        exec {
+            workingDir rev2Dir
+            commandLine 'git', 'checkout', rev2
+        }
+    }
+}
+
+task buildRev1 {
+    dependsOn team
+    doLast {
+        exec {
+            workingDir "$dirBuild/rev1"
+            commandLine 'gradlew.bat', 'build'
+        }
+    }
+}
+
+task buildRev2 {
+    dependsOn team
+    doLast {
+        exec {
+            workingDir "$dirBuild/rev2"
+            commandLine 'gradlew.bat', 'build'
+        }
+    }
+}
+
+task packageZips(type: Zip) {
+    dependsOn buildRev1, buildRev2
+    from(fileTree("$dirBuild/rev1/build/libs").matching {
+        include '*.jar'
+    })
+    from(fileTree("$dirBuild/rev2/build/libs").matching {
+        include '*.jar'
+    })
+    archiveBaseName.set("previous-revisions")
+    destinationDirectory.set(file("$dirBuild"))
+}
+
 task buildJar(type: Jar) {
-    dependsOn compileJava, copyResources, createModifiedJar
+    dependsOn compileJava, copyResources, createModifiedJar, packageZips
     from "$dirBuild/classes"
     archiveFileName = 'app.jar'
     destinationDirectory = file("$dirBuild")
