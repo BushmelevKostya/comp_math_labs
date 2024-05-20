@@ -34,7 +34,7 @@ public class Lab2Application {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("pairs", pairs.toString());
-		System.out.println(pairs);
+//		System.out.println(pairs);
 		
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
 

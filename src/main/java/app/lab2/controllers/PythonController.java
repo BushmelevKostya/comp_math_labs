@@ -29,18 +29,20 @@ public class PythonController {
 			Process process = processBuilder.start();
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			StringBuilder output = new StringBuilder();
 			String line;
 			while ((line = reader.readLine()) != null) {
 				output.append(line).append("\n");
 			}
-			
-			int exitCode = process.waitFor();
-//			System.out.println(output);
-//			System.out.println(scriptPath);
+			StringBuilder errorOutput = new StringBuilder();
+			while ((line = errorReader.readLine()) != null) {
+				errorOutput.append(line).append("\n");
+			}
+			if (!errorOutput.toString().equals("")) System.out.println("Error executing Python script. Error output: " + errorOutput.toString());
 			return output.toString();
 			
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			System.out.println(System.getProperty("user.dir"));
 			return "Error executing Python script";
 		}
