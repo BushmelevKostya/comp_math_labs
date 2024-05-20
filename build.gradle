@@ -57,8 +57,44 @@ task copyResources(type: Copy) {
     into "$dirBuild/classes"
 }
 
+task alt(type: Copy) {
+    from 'src/main/java'
+    into 'build/modifiedSrc'
+
+    def replaceRules = file('replace.rules').readLines().collectEntries { line ->
+        def parts = line.split('=')
+        [(parts[0].trim()): parts[1].trim()]
+    }
+
+    include '**/*.java'
+
+    filter { String line ->
+        replaceRules.each { key, value ->
+            line = line.replaceAll(key, value)
+        }
+        return line
+    }
+}
+
+task compileModifiedJava(type: JavaCompile) {
+    source = fileTree('build/modifiedSrc') {
+        include '**/*.java'
+    }
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = file('build/classes/modified')
+    dependsOn alt
+}
+
+task createModifiedJar(type: Jar) {
+    from compileModifiedJava.destinationDir
+    archiveBaseName.set('modified')
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('')
+    dependsOn compileModifiedJava
+}
+
 task buildJar(type: Jar) {
-    dependsOn compileJava, copyResources
+    dependsOn compileJava, copyResources, createModifiedJar
     from "$dirBuild/classes"
     archiveFileName = 'app.jar'
     destinationDirectory = file("$dirBuild")
@@ -134,24 +170,6 @@ task getLatestRevisions(type: Exec) {
         }
         doLast {
             revisionArchive.execute()
-        }
-    }
-}
-
-task alt {
-    dependsOn build
-    doLast {
-        fileTree("$dirBuild/classes").include("**/*.class").each { file ->
-            def content = file.text
-            content = content.replaceAll("url", "RESTTEMPLATE")
-            content = content.replaceAll("SubmitRequest", "SR")
-            file.write(content)
-        }
-
-        jar {
-            from "$dirBuild/classes"
-            archiveFileName = 'alt-program.jar'
-            destinationDirectory = file("$dirBuild/libs")
         }
     }
 }
