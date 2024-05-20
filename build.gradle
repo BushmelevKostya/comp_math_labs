@@ -92,11 +92,14 @@ task myClean(type: Delete) {
     delete "$dirBuild"
 }
 
+
 tasks.register('scp', Exec) {
     dependsOn build
-    description = 'Transfer the built project via SCP to a selected server'
-    commandLine 'scp', "$dirBuild/app.war", 's367950@se.ifmo.ru:s367950/lab3'
+    description = 'ѕередать собранный проект через SCP на выбранный сервер'
+    commandLine 'ssh', '-p', '2222', '-L', '5433:localhost:5432', 's367950@se.ifmo.ru', '&&', 'scp', '-P', '2222', '-o', 'StrictHostKeyChecking=no', "$dirBuild/app.war", 'localhost:5433:s367950/lab3'
 }
+
+
 
 bootJar {
     mainClass = 'Lab2Application'
@@ -167,7 +170,7 @@ task generateDiff(type: Exec) {
     def currentRevision = 'HEAD'
     def nextRevision = 'HEAD^'
 
-    def outputFile = file("$buildDir/diff.txt")
+    def outputFile = file("$dirBuild/diff.txt")
 
     commandLine 'git', 'diff', currentRevision, nextRevision
     standardOutput = new ByteArrayOutputStream()
@@ -180,7 +183,7 @@ task generateDiff(type: Exec) {
 }
 
 task history(type: JavaCompile) {
-    //отлавливает ошибку при компил€ции
+    //catch error in compile
     options.compilerArgs << "-Xlint:all"
     options.fork = true
     options.failOnError = true
@@ -208,12 +211,16 @@ task history(type: JavaCompile) {
 }
 
 task changeLocalization {
-    def RUlang = 'messages_ru.properties'
-    def ENlang = 'messages_en.properties'
-    def settingsFile = file('settings.gradle')
-    if (settingsFile.text == RUlang) {
-        settingsFile.text = settingsFile.text.replace(RUlang, ENlang)
-    } else {
-        settingsFile.text = settingsFile.text.replace(ENlang, RUlang)
+    doLast {
+        def RUlang = 'messages_ru.properties'
+        def ENlang = 'messages_en.properties'
+        def settingsFile = file('settings.gradle')
+        if (settingsFile.text.contains(RUlang)) {
+            settingsFile.text = settingsFile.text.replace(RUlang, ENlang)
+        } else {
+            settingsFile.text = settingsFile.text.replace(ENlang, RUlang)
+        }
+        settingsFile.write(settingsFile.text)
     }
 }
+

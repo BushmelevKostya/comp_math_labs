@@ -31,5 +31,5 @@ ext {
     docsJar = 'docs.jar'
     revisionsZip = 'revisions.zip'
 
-    lang = 'messages_ru.properties'
+    lang = 'messages_en.properties'
 }
