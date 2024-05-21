@@ -195,12 +195,10 @@ task myClean(type: Delete) {
     delete "$dirBuild"
 }
 
-
 tasks.register('scp', Exec) {
     dependsOn build
     commandLine 'ssh', '-p', '2222', '-L', '5433:localhost:5432', 's367950@se.ifmo.ru', '&&', 'scp', '-P', '2222', '-o', 'StrictHostKeyChecking=no', "$dirBuild/app.war", 'localhost:5433:s367950/lab3'
 }
-
 
 bootJar {
     mainClass = 'Lab2Application'
@@ -328,7 +326,6 @@ task history {
         }
     }
 }
-
 
 task changeLocalization {
     doLast {
