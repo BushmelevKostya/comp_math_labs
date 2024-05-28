@@ -1,11 +1,15 @@
 import React from 'react';
 
-const SubmitButton = ({inputValues, x, updateInfo}) => {
+const SubmitButton = ({inputValues, x, updateInfo, selectedFunc, a, b, count}) => {
     const filteredInputValues = inputValues.filter(pair => pair.x !== '' && pair.y !== '');
     const handleSubmit = () => {
         const data = {
             pairs: filteredInputValues,
-            x: x
+            x: x,
+            selectedFunc: selectedFunc,
+            a: a,
+            b: b,
+            count: count
         };
 
         fetch('http://localhost:8080/submit', {

@@ -30,12 +30,26 @@ public class Lab2Application {
 	public String submit(@RequestBody SubmitRequest request) {
 		List<Map<String, Double>> pairs = request.pairs();
 		Float x = request.x();
+		String func = request.selectedFunc();
+		Float a = request.a();
+		Float b = request.b();
+		Integer count = request.count();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("pairs", pairs.toString());
-		map.add("x", x.toString());
+		if (x != null) {
+			map.add("x", x.toString());
+		} else {
+			map.add("x", "0");
+		}
+		if (func != null && a != null && b != null && count != null){
+			map.add("func", func);
+			map.add("a", a.toString());
+			map.add("b", b.toString());
+			map.add("count", count.toString());
+		}
 //		System.out.println(pairs);
 		
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);

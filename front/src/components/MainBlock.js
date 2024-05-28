@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
 import Graph from "./Graph";
 import SubmitButton from "./lab4/SubmitButton";
+import CheckButtons from "./lab4/CheckButtons";
 import TableInput from "./lab4/TableInput";
 import TextOutput from "./lab4/TextOutput";
 import FloatInput from "./lab4/FloatInput";
+import IntInput from "./lab4/IntInput";
 
 function MainBlock() {
     const [inputValues, setInputValues] = useState(
-        Array(7).fill(0).map(() => ({x: 0, y: 0}))
+        Array(7).fill(0).map(() => ({ x: 0, y: 0 }))
     );
     const [outputText, setOutputText] = useState('');
     const [errorText, setErrorText] = useState('');
     const [floatValue, setFloatValue] = useState(0);
+    const [aValue, setAValue] = useState(0);
+    const [bValue, setBValue] = useState(0);
+    const [countValue, setCountValue] = useState(0);
+    const [selectedFunc, setSelectedFunc] = useState('x^2');
 
     const handleInputChange = (index, field, value) => {
         const newInputValues = [...inputValues];
@@ -38,7 +44,7 @@ function MainBlock() {
                     const data = content.split('\n').map(line => {
                         const [x, y] = line.split(',');
                         if (x !== undefined && y !== undefined) {
-                            return {x: parseFloat(x), y: parseFloat(y)};
+                            return { x: parseFloat(x), y: parseFloat(y) };
                         } else {
                             throw new Error('Invalid data format in the file.');
                         }
@@ -60,11 +66,27 @@ function MainBlock() {
         setFloatValue(parseFloat(event.target.value));
     };
 
+    const handleAInputChange = (event) => {
+        setAValue(parseFloat(event.target.value));
+    };
+
+    const handleBInputChange = (event) => {
+        setBValue(parseFloat(event.target.value));
+    };
+
+    const handleCountInputChange = (event) => {
+        setCountValue(parseInt(event.target.value, 10));
+    };
+
+    const handleFuncChange = (funcType) => {
+        setSelectedFunc(funcType);
+    };
+
     return (
         <div className="main-block">
             <div className="text-block">
                 <div className="input-number-container">
-                    <TableInput handleInputChange={handleInputChange} inputValues={inputValues}/>
+                    <TableInput handleInputChange={handleInputChange} inputValues={inputValues} />
                 </div>
                 <div>
                     x: <FloatInput
@@ -72,16 +94,29 @@ function MainBlock() {
                     onChange={handleFloatInputChange}
                 />
                 </div>
+                <div className="another-input">
+                    <CheckButtons onChange={handleFuncChange} />
+                    a: <FloatInput
+                    value={aValue}
+                    onChange={handleAInputChange} />
+                    b: <FloatInput
+                    value={bValue}
+                    onChange={handleBInputChange} />
+                    count: <IntInput
+                    value={countValue}
+                    onChange={handleCountInputChange} />
+                </div>
                 <button onClick={handleFileButtonClick}>Upload</button>
-                <SubmitButton inputValues={inputValues} x={floatValue} updateInfo={updateInfo}/>
+                <SubmitButton inputValues={inputValues} x={floatValue} updateInfo={updateInfo} selectedFunc={selectedFunc} a={aValue} b={bValue} count={countValue} />
                 {errorText && <div className="error-message">{errorText}</div>}
-                <TextOutput text={outputText}/>
+                <TextOutput text={outputText} />
             </div>
             <div className="graph-block">
-                <Graph data={outputText} inputValues={inputValues}/>
+                <Graph data={outputText} inputValues={inputValues} />
             </div>
         </div>
     );
 }
+
 
 export default MainBlock;

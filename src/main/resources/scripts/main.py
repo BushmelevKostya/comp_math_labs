@@ -21,26 +21,33 @@ def main():
     for i in range(1, 25):
         try:
             strings.append(
-                sys.argv[i].replace("x:", "").replace("pairs:", "").replace("{", "").replace("}", "").replace("[[", "").replace("]]",
+                sys.argv[i].replace("x:", "").replace("func:", "").replace("a:", "").replace("b:", "").replace("count:", "").replace("pairs:", "").replace("{", "").replace("}", "").replace("[[", "").replace("]]",
                                                                                                               "").replace(
                     ",", "").replace("x=", "").replace("y=", ""))
         except IndexError:
             continue
     pairs = []
     last = ""
-    strings[-1], x = strings[-1].split("[")
-    x = x.replace("]", "")
-    for str in strings:
-        if last == "":
-            last = str
-        else:
-            pairs.append([float(last), float(str)])
-            last = ""
+    try:
+        strings[-1], x, func, a, b, count = strings[-1].split("[")
+        x = x.replace("]", "")
+        func = 0 if "2" in func.replace("]", "") else 1
+        a = float(a.replace("]", ""))
+        b = float(b.replace("]", ""))
+        count = int(count.replace("]", ""))
 
-    number = 0
-    borders = [0, 4]
-    count = 5
-    pairs = func_to_pairs(my_func_1 if number else my_func_2, borders, count)
+        borders = [a, b]
+        pairs = func_to_pairs(my_func_1 if func else my_func_2, borders, count)
+    except ValueError:
+        strings[-1], x = strings[-1].split("[")
+        x = x.replace("]", "")
+
+        for str in strings:
+            if last == "":
+                last = str
+            else:
+                pairs.append([float(last), float(str)])
+                last = ""
 
     run_methods(pairs, float(x))
 
