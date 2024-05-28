@@ -1,17 +1,20 @@
 def print_diff_matrix(matrix, n):
-    print("Matrix of differences is:")
     for i in range(n):
         for j in range(n):
-            print("{:.2f}".format(matrix[i][j]), end="\t")
+            print(round(matrix[i][j], 2), end=" ")
         print()
 
-def lagrange_output(res, dot):
+
+def lagrange_output(res, dot, eq):
     print("Lagrange method - result value f(", dot, "): ", round(res, 4))
+    print(f"Lagrange equation: {eq}")
 
 
-def newton_output(res, dot):
+def newton_output(res, dot, eq):
     print("Newton method - result value f(", dot, "): ", round(res, 4))
+    print(f"Newton equation: {eq}")
 
 
-def gauss_output(res, dot):
+def gauss_output(res, dot, eq):
     print("Gauss method - result value f(", dot, "): ", round(res, 4))
+    print(f"Gauss equation: {eq}")

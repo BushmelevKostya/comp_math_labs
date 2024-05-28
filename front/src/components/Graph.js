@@ -10,74 +10,74 @@ function Graph({data, inputValues}) {
     }, [data]);
 
     const updateGraph = (data) => {
-        let line = data.split('\n').find(line => line.includes('approximation'));
+        // let line = data.split('\n').find(line => line.includes('approximation'));
         let points = inputValues
             .filter(point => point.x !== '' && point.y !== '')
             .map(point => `(${point.x},${point.y})`)
             .join(',');
-
-        if (line) {
-            let word = line.split(' ')[0];
-            let a0, a1, a2, a3;
-            switch (word) {
-                case "Linear":
-                    line = data.split('\n').find(line => line.includes('a:'));
-                    a0 = line.replace("a: ", "")
-                    line = data.split('\n').find(line => line.includes('b:'));
-                    a1 = line.replace("b: ", "")
-                    setLatex1(`${a0}*x + (${a1})`);
-                    setLatex2(`${points}`);
-                    break;
-                case "Polynomial_2":
-                    line = data.split('\n').find(line => line.includes('a0'));
-                    a0 = line.replace("a0: ", "")
-                    line = data.split('\n').find(line => line.includes('a1'));
-                    a1 = line.replace("a1: ", "")
-                    line = data.split('\n').find(line => line.includes('a2'));
-                    a2 = line.replace("a2: ", "")
-                    setLatex1(`${a0} + (${a1}*x) + (${a2}*x^2)`);
-                    setLatex2(`${points}`);
-                    break;
-                case "Polynomial_3":
-                    line = data.split('\n').find(line => line.includes('a0'));
-                    a0 = line.replace("a0: ", "")
-                    line = data.split('\n').find(line => line.includes('a1'));
-                    a1 = line.replace("a1: ", "")
-                    line = data.split('\n').find(line => line.includes('a2'));
-                    a2 = line.replace("a2: ", "")
-                    line = data.split('\n').find(line => line.includes('a3'));
-                    a3 = line.replace("a3: ", "")
-                    setLatex1(`${a0} + (${a1}*x) + (${a2}*x^2) + (${a3}*x^3)`);
-                    setLatex2(`${points}`);
-                    break;
-                case "Power":
-                    line = data.split('\n').find(line => line.includes('a:'));
-                    a0 = line.replace("a: ", "")
-                    line = data.split('\n').find(line => line.includes('b:'));
-                    a1 = line.replace("b: ", "")
-                    setLatex1(`${a0}*x^(${a1})`);
-                    setLatex2(`${points}`);
-                    break;
-                case "Exponential":
-                    line = data.split('\n').find(line => line.includes('a:'));
-                    a0 = line.replace("a: ", "")
-                    line = data.split('\n').find(line => line.includes('b:'));
-                    a1 = line.replace("b: ", "")
-                    setLatex1(`${a0} \\cdot e^{${a1}*x}`);
-                    setLatex2(`${points}`);
-                    break;
-                case "Logarithmic":
-                    line = data.split('\n').find(line => line.includes('a:'));
-                    a0 = line.replace("a: ", "")
-                    line = data.split('\n').find(line => line.includes('b:'));
-                    a1 = line.replace("b: ", "")
-                    setLatex1(`${a0} \\cdot \\ln{x} + ${a1}`);
-                    setLatex2(`${points}`);
-                    break;
-                default:
-                    setLatex1("");
-            }
-        }
+        setLatex1(`${points}`);
+        // if (line) {
+        //     let word = line.split(' ')[0];
+        //     let a0, a1, a2, a3;
+        //     switch (word) {
+        //         case "Linear":
+        //             line = data.split('\n').find(line => line.includes('a:'));
+        //             a0 = line.replace("a: ", "")
+        //             line = data.split('\n').find(line => line.includes('b:'));
+        //             a1 = line.replace("b: ", "")
+        //             setLatex1(`${a0}*x + (${a1})`);
+        //             setLatex2(`${points}`);
+        //             break;
+        //         case "Polynomial_2":
+        //             line = data.split('\n').find(line => line.includes('a0'));
+        //             a0 = line.replace("a0: ", "")
+        //             line = data.split('\n').find(line => line.includes('a1'));
+        //             a1 = line.replace("a1: ", "")
+        //             line = data.split('\n').find(line => line.includes('a2'));
+        //             a2 = line.replace("a2: ", "")
+        //             setLatex1(`${a0} + (${a1}*x) + (${a2}*x^2)`);
+        //             setLatex2(`${points}`);
+        //             break;
+        //         case "Polynomial_3":
+        //             line = data.split('\n').find(line => line.includes('a0'));
+        //             a0 = line.replace("a0: ", "")
+        //             line = data.split('\n').find(line => line.includes('a1'));
+        //             a1 = line.replace("a1: ", "")
+        //             line = data.split('\n').find(line => line.includes('a2'));
+        //             a2 = line.replace("a2: ", "")
+        //             line = data.split('\n').find(line => line.includes('a3'));
+        //             a3 = line.replace("a3: ", "")
+        //             setLatex1(`${a0} + (${a1}*x) + (${a2}*x^2) + (${a3}*x^3)`);
+        //             setLatex2(`${points}`);
+        //             break;
+        //         case "Power":
+        //             line = data.split('\n').find(line => line.includes('a:'));
+        //             a0 = line.replace("a: ", "")
+        //             line = data.split('\n').find(line => line.includes('b:'));
+        //             a1 = line.replace("b: ", "")
+        //             setLatex1(`${a0}*x^(${a1})`);
+        //             setLatex2(`${points}`);
+        //             break;
+        //         case "Exponential":
+        //             line = data.split('\n').find(line => line.includes('a:'));
+        //             a0 = line.replace("a: ", "")
+        //             line = data.split('\n').find(line => line.includes('b:'));
+        //             a1 = line.replace("b: ", "")
+        //             setLatex1(`${a0} \\cdot e^{${a1}*x}`);
+        //             setLatex2(`${points}`);
+        //             break;
+        //         case "Logarithmic":
+        //             line = data.split('\n').find(line => line.includes('a:'));
+        //             a0 = line.replace("a: ", "")
+        //             line = data.split('\n').find(line => line.includes('b:'));
+        //             a1 = line.replace("b: ", "")
+        //             setLatex1(`${a0} \\cdot \\ln{x} + ${a1}`);
+        //             setLatex2(`${points}`);
+        //             break;
+        //         default:
+        //             setLatex1("");
+        //     }
+        // }
     };
 
     useEffect(() => {
