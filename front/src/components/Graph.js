@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Desmos from 'desmos';
-import {color} from "chart.js/helpers";
 
 function Graph({data, inputValues}) {
     const desmosContainerRef = useRef(null);
@@ -8,9 +7,11 @@ function Graph({data, inputValues}) {
     const [latex2, setLatex2] = useState('');
     const [latex3, setLatex3] = useState('');
     const [latex4, setLatex4] = useState('');
+    const [latex8, setLatex8] = useState('');
     const [latex5, setLatex5] = useState('');
     const [latex6, setLatex6] = useState('');
     const [latex7, setLatex7] = useState('');
+    const [latex9, setLatex9] = useState('');
     useEffect(() => {
         updateGraph(data);
     }, [data]);
@@ -37,6 +38,11 @@ function Graph({data, inputValues}) {
             line = line.replace("Gauss equation: ", "");
             setLatex4(line);
         }
+        line = data.split('\n').find(line => line.includes('Stirling equation:'));
+        if (line) {
+            line = line.replace("Stirling equation: ", "");
+            setLatex8(line);
+        }
         let x, y, arr;
         line = data.split('\n').find(line => line.includes('Lagrange method - result value f('));
         if (line) {
@@ -61,6 +67,14 @@ function Graph({data, inputValues}) {
             x = arr[0]
             y = arr[1]
             setLatex7("(" + x + "," + y + ")");
+        }
+        line = data.split('\n').find(line => line.includes('Stirling method - result value f('));
+        if (line) {
+            line = line.replace("Stirling method - result value f( ", "").replace(" )", "");
+            arr = line.split(":")
+            x = arr[0]
+            y = arr[1]
+            setLatex9("(" + x + "," + y + ")");
         }
 
         // if (line) {
@@ -133,13 +147,15 @@ function Graph({data, inputValues}) {
         calculator.setExpression({id: 'graph2', latex: latex2, color: '#FF0000'});
         calculator.setExpression({id: 'graph3', latex: latex3, color: '#00FF00'});
         calculator.setExpression({id: 'graph4', latex: latex4, color: '#0000FF'});
+        calculator.setExpression({id: 'graph8', latex: latex8, color: '#E8E88E'});
         calculator.setExpression({id: 'graph5', latex: latex5, color: '#FF0000'});
         calculator.setExpression({id: 'graph6', latex: latex6, color: '#00FF00'});
         calculator.setExpression({id: 'graph7', latex: latex7, color: '#0000FF'});
+        calculator.setExpression({id: 'graph9', latex: latex9, color: '#E8E88E'});
         return () => {
             calculator.destroy();
         };
-    }, [latex1, latex2, latex3, latex4, latex5, latex6, latex7]);
+    }, [latex1, latex2, latex3, latex4, latex5, latex6, latex7, latex8, latex9]);
 
     return <div ref={desmosContainerRef} style={{width: '600px', height: '350px'}}/>;
 }
