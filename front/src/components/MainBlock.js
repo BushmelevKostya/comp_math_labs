@@ -3,6 +3,7 @@ import Graph from "./Graph";
 import SubmitButton from "./lab4/SubmitButton";
 import TableInput from "./lab4/TableInput";
 import TextOutput from "./lab4/TextOutput";
+import FloatInput from "./lab4/FloatInput";
 
 function MainBlock() {
     const [inputValues, setInputValues] = useState(
@@ -10,6 +11,7 @@ function MainBlock() {
     );
     const [outputText, setOutputText] = useState('');
     const [errorText, setErrorText] = useState('');
+    const [floatValue, setFloatValue] = useState(0);
 
     const handleInputChange = (index, field, value) => {
         const newInputValues = [...inputValues];
@@ -19,7 +21,7 @@ function MainBlock() {
 
     const updateInfo = (data) => {
         setOutputText(data);
-        setErrorText('')
+        setErrorText('');
     };
 
     const handleFileButtonClick = () => {
@@ -36,13 +38,13 @@ function MainBlock() {
                     const data = content.split('\n').map(line => {
                         const [x, y] = line.split(',');
                         if (x !== undefined && y !== undefined) {
-                            return { x: parseFloat(x), y: parseFloat(y) };
+                            return {x: parseFloat(x), y: parseFloat(y)};
                         } else {
                             throw new Error('Invalid data format in the file.');
                         }
                     });
                     setInputValues(data);
-                    setErrorText('')
+                    setErrorText('');
                 } catch (error) {
                     setErrorText('Error reading file');
                 }
@@ -54,14 +56,24 @@ function MainBlock() {
         input.click();
     };
 
+    const handleFloatInputChange = (event) => {
+        setFloatValue(parseFloat(event.target.value));
+    };
+
     return (
         <div className="main-block">
             <div className="text-block">
                 <div className="input-number-container">
                     <TableInput handleInputChange={handleInputChange} inputValues={inputValues}/>
                 </div>
+                <div>
+                    x: <FloatInput
+                    value={floatValue}
+                    onChange={handleFloatInputChange}
+                />
+                </div>
                 <button onClick={handleFileButtonClick}>Upload</button>
-                <SubmitButton inputValues={inputValues} updateInfo={updateInfo}/>
+                <SubmitButton inputValues={inputValues} x={floatValue} updateInfo={updateInfo}/>
                 {errorText && <div className="error-message">{errorText}</div>}
                 <TextOutput text={outputText}/>
             </div>

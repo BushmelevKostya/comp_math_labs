@@ -21,20 +21,22 @@ def main():
     for i in range(1, 25):
         try:
             strings.append(
-                sys.argv[i].replace("pairs:", "").replace("{", "").replace("}", "").replace("[[", "").replace("]]",
+                sys.argv[i].replace("x:", "").replace("pairs:", "").replace("{", "").replace("}", "").replace("[[", "").replace("]]",
                                                                                                               "").replace(
                     ",", "").replace("x=", "").replace("y=", ""))
         except IndexError:
             continue
     pairs = []
     last = ""
+    strings[-1], x = strings[-1].split("[")
+    x = x.replace("]", "")
     for str in strings:
         if last == "":
             last = str
         else:
             pairs.append([float(last), float(str)])
             last = ""
-    run_methods(pairs, 4.5)
+    run_methods(pairs, float(x))
 
 
 if __name__ == "__main__":

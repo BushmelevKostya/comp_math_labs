@@ -29,11 +29,13 @@ public class Lab2Application {
 	@PostMapping("/submit")
 	public String submit(@RequestBody SubmitRequest request) {
 		List<Map<String, Double>> pairs = request.pairs();
+		Float x = request.x();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("pairs", pairs.toString());
+		map.add("x", x.toString());
 //		System.out.println(pairs);
 		
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
