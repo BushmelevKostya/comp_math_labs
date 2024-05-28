@@ -29,6 +29,21 @@ def main():
     pairs = []
     last = ""
     try:
+        k = 0
+        strings[-1], x = strings[-1].split("[")
+        x = x.replace("]", "")
+
+        for str in strings:
+            if last == "":
+                last = str
+            else:
+                pairs.append([float(last), float(str)])
+                if float(last) == 0 and float(str) == 0:
+                    k += 1
+                    if k == 2:
+                        raise ValueError
+                last = ""
+    except ValueError:
         strings[-1], x, func, a, b, count = strings[-1].split("[")
         x = x.replace("]", "")
         func = 0 if "2" in func.replace("]", "") else 1
@@ -38,17 +53,7 @@ def main():
 
         borders = [a, b]
         pairs = func_to_pairs(my_func_1 if func else my_func_2, borders, count)
-    except ValueError:
-        strings[-1], x = strings[-1].split("[")
-        x = x.replace("]", "")
-
-        for str in strings:
-            if last == "":
-                last = str
-            else:
-                pairs.append([float(last), float(str)])
-                last = ""
-
+    print(pairs)
     run_methods(pairs, float(x))
 
 
