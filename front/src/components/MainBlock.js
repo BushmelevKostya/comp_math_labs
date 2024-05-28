@@ -112,7 +112,7 @@ function MainBlock() {
                 <TextOutput text={outputText} />
             </div>
             <div className="graph-block">
-                <Graph data={outputText} inputValues={inputValues} />
+                <Graph data={outputText} inputValues={inputValues} func={selectedFunc}/>
             </div>
         </div>
     );
