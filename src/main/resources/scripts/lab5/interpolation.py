@@ -29,6 +29,7 @@ def run_methods(pairs, dot):
     bessel_output(res(dot), dot, eq)
 
 
+
 def calc_lagr_coef(pairs, num, dot, n, y):
     p = 1
     f = 0
