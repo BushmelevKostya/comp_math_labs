@@ -5,17 +5,34 @@ function Graph({data, inputValues}) {
     const desmosContainerRef = useRef(null);
     const [latex1, setLatex1] = useState('');
     const [latex2, setLatex2] = useState('');
+    const [latex3, setLatex3] = useState('');
+    const [latex4, setLatex4] = useState('');
     useEffect(() => {
         updateGraph(data);
     }, [data]);
 
     const updateGraph = (data) => {
-        // let line = data.split('\n').find(line => line.includes('approximation'));
         let points = inputValues
             .filter(point => point.x !== '' && point.y !== '')
             .map(point => `(${point.x},${point.y})`)
             .join(',');
         setLatex1(`${points}`);
+        let line;
+        line = data.split('\n').find(line => line.includes('Lagrange equation:'));
+        if (line) {
+            line = line.replace("Lagrange equation: ", "");
+            setLatex2(line);
+        }
+        line = data.split('\n').find(line => line.includes('Newton equation:'));
+        if (line) {
+            line = line.replace("Newton equation: ", "");
+            setLatex3(line);
+        }
+        line = data.split('\n').find(line => line.includes('Gauss equation:'));
+        if (line) {
+            line = line.replace("Gauss equation: ", "");
+            setLatex4(line);
+        }
         // if (line) {
         //     let word = line.split(' ')[0];
         //     let a0, a1, a2, a3;
@@ -84,10 +101,12 @@ function Graph({data, inputValues}) {
         const calculator = Desmos.GraphingCalculator(desmosContainerRef.current);
         calculator.setExpression({id: 'graph1', latex: latex1});
         calculator.setExpression({id: 'graph2', latex: latex2});
+        calculator.setExpression({id: 'graph3', latex: latex3});
+        calculator.setExpression({id: 'graph4', latex: latex4});
         return () => {
             calculator.destroy();
         };
-    }, [latex1, latex2]);
+    }, [latex1, latex2, latex3, latex4]);
 
     return <div ref={desmosContainerRef} style={{width: '600px', height: '350px'}}/>;
 }
