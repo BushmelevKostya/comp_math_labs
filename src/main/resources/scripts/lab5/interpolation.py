@@ -1,6 +1,8 @@
 import math
 from lab5.output import *
 from lab5.polinoms import *
+from functools import reduce
+from math import factorial
 
 def run_methods(pairs, dot):
     n = len(pairs)
@@ -21,6 +23,10 @@ def run_methods(pairs, dot):
         newton_output(res, dot, eq)
         res, eq = first_gauss_formula(dot, pairs[(n - 1) // 2][0], h, diff_matrix, n)
         gauss_output(res, dot, eq)
+    res, eq = stirling_formula(dot, pairs[(n - 1) // 2][0], h, diff_matrix, n)
+    stirling_output(res, dot, eq)
+    res = bessel_formula(pairs, n)
+    bessel_output(res(dot), dot, eq)
 
 
 def calc_lagr_coef(pairs, num, dot, n, y):
@@ -215,3 +221,44 @@ def lagrange(pairs, dot):
         equation = plus_polynomial_strings(equation, eq)
         # print(equation)
     return s, equation
+
+
+def stirling_formula(dot, pair, h, diff_matrix, n):
+    s1, eq1 = first_gauss_formula(dot, pair, h, diff_matrix, n)
+    s2, eq2 = second_gauss_formula(dot, pair, h, diff_matrix, n)
+
+    result = (s1 + s2) / 2
+
+    equation = plus_polynomial_strings(eq1, eq2)
+    equation = multiply_polynomial_strings(equation, "0.5")
+
+    return result, equation
+
+
+def bessel_formula(pairs, n):
+    xs = [pair[0] for pair in pairs]
+    ys = [pair[1] for pair in pairs]
+    n = len(xs) - 1
+    alpha_ind = n // 2
+    fin_difs = []
+    fin_difs.append(ys[:])
+
+    for k in range(1, n + 1):
+        last = fin_difs[-1][:]
+        fin_difs.append(
+            [last[i + 1] - last[i] for i in range(n - k + 1)])
+
+    h = xs[1] - xs[0]
+    dts1 = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]
+
+    return lambda x: (ys[alpha_ind] + ys[alpha_ind]) / 2 + sum([
+        reduce(lambda a, b: a * b,
+               [(x - xs[alpha_ind]) / h + dts1[j] for j in range(k)])
+        * fin_difs[k][len(fin_difs[k]) // 2] / factorial(2 * k) +
+
+        ((x - xs[alpha_ind]) / h - 1 / 2) *
+        reduce(lambda a, b: a * b,
+               [(x - xs[alpha_ind]) / h + dts1[j] for j in range(k)])
+        * fin_difs[k][len(fin_difs[k]) // 2] / factorial(2 * k + 1)
+
+        for k in range(1, n + 1)])
