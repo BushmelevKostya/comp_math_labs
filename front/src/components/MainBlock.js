@@ -6,7 +6,7 @@ import TextOutput from "./lab4/TextOutput";
 
 function MainBlock() {
     const [inputValues, setInputValues] = useState(
-        Array(12).fill(0).map(() => ({x: 0, y: 0}))
+        Array(7).fill(0).map(() => ({x: 0, y: 0}))
     );
     const [outputText, setOutputText] = useState('');
     const [errorText, setErrorText] = useState('');

@@ -12,7 +12,7 @@ const TableInput = ({inputValues, handleInputChange}) => {
             </tr>
             </thead>
             <tbody>
-            {Array(12).fill(0).map((_, i) => (
+            {Array(7).fill(0).map((_, i) => (
                 <div key={i}>
                     <FloatInput
                         value={inputValues[i].x}
