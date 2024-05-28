@@ -4,7 +4,19 @@ from lab5.polinoms import *
 from functools import reduce
 from math import factorial
 
+def check_pairs(pairs):
+    x = []
+    for pair in pairs:
+        if pair[0] in x:
+            return 0
+        x.append(pair[0])
+    return 1
+
 def run_methods(pairs, dot):
+    check_res = check_pairs(pairs)
+    if check_res == 0:
+        print("You can not define two same arguments!")
+        return
     n = len(pairs)
     diff_matrix = calc_diff_matrix(pairs, n)
     print_diff_matrix(diff_matrix, n)

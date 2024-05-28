@@ -50,11 +50,15 @@ def main():
         a = float(a.replace("]", ""))
         b = float(b.replace("]", ""))
         count = int(count.replace("]", ""))
-
+        if a >= b:
+            print("Sorry, left border must be smaller than right border")
+            return
         borders = [a, b]
         pairs = func_to_pairs(my_func_1 if func else my_func_2, borders, count)
-    print(pairs)
-    run_methods(pairs, float(x))
+    # print(pairs)
+    sorted_pairs = sorted(pairs, key=lambda pair: pair[0])
+    print(sorted_pairs)
+    run_methods(sorted_pairs, float(x))
 
 
 if __name__ == "__main__":

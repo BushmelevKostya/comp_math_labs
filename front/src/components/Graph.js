@@ -97,7 +97,32 @@ function Graph({data, inputValues, func}) {
         };
     }, [latex1, latex2, latex3, latex4, latex5, latex6, latex7, latex8, latex9, latex10]);
 
-    return <div ref={desmosContainerRef} style={{width: '600px', height: '350px'}}/>;
+    const legendItems = [
+        {label: 'Input Points', color: '#000', latex: latex1},
+        {label: 'Lagrange Equation', color: '#FF0000', latex: latex2},
+        {label: 'Newton Equation', color: '#00FF00', latex: latex3},
+        {label: 'Gauss Equation', color: '#0000FF', latex: latex4},
+        {label: 'Lagrange Result', color: '#FF0000', latex: latex5},
+        {label: 'Newton Result', color: '#00FF00', latex: latex6},
+        {label: 'Gauss Result', color: '#0000FF', latex: latex7},
+        {label: 'Stirling Equation', color: '#E8E88E', latex: latex8},
+        {label: 'Stirling Result', color: '#E8E88E', latex: latex9},
+        {label: 'Input Function', color: '#222', latex: latex10}
+    ];
+
+    return (
+        <div>
+            <div ref={desmosContainerRef} style={{width: '600px', height: '350px'}}></div>
+            <div className="legend">
+                {legendItems.map((item, index) => (
+                    <div key={index} className="legend-item" style={{color: item.color}}>
+                        <span style={{backgroundColor: item.color}} className="legend-color"></span>
+                        {item.label}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default Graph;

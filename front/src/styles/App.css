@@ -53,3 +53,22 @@ body {
 .input-text {
   margin-right: 10px;
 }
+
+.legend {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
