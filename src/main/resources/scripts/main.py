@@ -36,6 +36,12 @@ def main():
         else:
             pairs.append([float(last), float(str)])
             last = ""
+
+    number = 0
+    borders = [0, 4]
+    count = 5
+    pairs = func_to_pairs(my_func_1 if number else my_func_2, borders, count)
+
     run_methods(pairs, float(x))
 
 
