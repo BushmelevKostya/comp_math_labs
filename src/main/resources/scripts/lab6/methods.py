@@ -49,17 +49,17 @@ def run_methods(f, exact_y, x0, xn, y0, h, eps, n):
 
                 ys = new_ys.copy()
             if iters != 1:
-                print(
-                    f"Для точности eps={eps} интервал был разбит на n={ni} частей с шагом h={round((xn - x0) / ni, 6)} за {iters} итераций.\n")
+                print(f"Для точности eps={eps} интервал был разбит на n={ni} частей с шагом h={round((xn - x0) / ni, 6)} за {iters} итераций.\n")
             else:
-                print(
-                    f"Для точности eps={eps} интервал был разбит на n={ni} частей с шагом h={round((xn - x0) / ni, 6)}.\n")
+                print(f"Для точности eps={eps} интервал был разбит на n={ni} частей с шагом h={round((xn - x0) / ni, 6)}.\n")
             if len(xs) < 100:
-                print("y:\t[", *map(lambda x: round(x, 5), ys), "]")
-                print("y_точн:\t[", *map(lambda x: round(exact_y(x, x0, y0), 5), xs), "]")
+                print("x - ", name, ": ", [round(x,2) for x in xs])
+                print("y - :",  name, ": ", *map(lambda x: round(x, 5), ys))
+                print("y_точн:", *map(lambda x: round(exact_y(x, x0, y0), 5), xs))
             elif my_input("Показать все значения y (количество > 100)? [y/n]: ") == 'y':
-                print("y:\t[", *map(lambda x: round(x, 5), ys), "]")
-                print("y_точн:\t[", *map(lambda x: round(exact_y(x, x0, y0), 5), xs), "]")
+                print("x - ", name, ": ", [round(x,2) for x in xs])
+                print("y - ", name, ": ", *map(lambda x: round(x, 5), ys))
+                print("y_точн:", *map(lambda x: round(exact_y(x, x0, y0), 5), xs))
             print()
             if method is milne_method:
                 print(f"Погрешность (max|y_iточн - y_i|): {inaccuracy}")
@@ -69,6 +69,7 @@ def run_methods(f, exact_y, x0, xn, y0, h, eps, n):
             print('-' * 30 + '\n')
             print("! Невозможно вычислить. Число/точность слишком большое.")
         print('-' * 30)
+
 
 
 def euler_method(f, xs, y0, eps):

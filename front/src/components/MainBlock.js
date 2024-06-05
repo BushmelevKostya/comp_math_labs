@@ -65,8 +65,7 @@ function MainBlock() {
                 <TextOutput text={outputText} />
             </div>
             <div className="graph-block">
-                {/* Uncomment this line and import Graph component to use it */}
-                {/* <Graph func={selectedFunc} floatValues={floatValues} intValue={intValue} /> */}
+                 {/*<Graph data={outputText} />*/}
             </div>
         </div>
     );

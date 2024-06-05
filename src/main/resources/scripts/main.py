@@ -8,6 +8,7 @@ import sys
 
 def main():
     strings = []
+
     for i in range(1, 6):
         try:
             strings.append(
