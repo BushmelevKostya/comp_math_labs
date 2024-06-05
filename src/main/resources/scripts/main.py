@@ -16,7 +16,7 @@ def main():
         except IndexError:
             continue
     a, b, c = strings[-1].split(',')
-    strings[-1] = strings[-1][:3]
+    strings[-1] = a
     strings.append(b)
     strings.append(c)
     print(strings)

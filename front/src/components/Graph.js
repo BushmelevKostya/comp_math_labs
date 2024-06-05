@@ -11,12 +11,9 @@ function Graph({ data }) {
 
     const updateGraph = (data) => {
         const pairs = [];
-
-        // Extract x values
         const xLine = data.split('\n').find(line => line.includes('x -'));
         const xValues = xLine ? xLine.match(/(\d+(\.\d+)?)/g) : [];
 
-        // Extract y values
         const yLine = data.split('\n').find(line => line.includes('y -'));
         const yValues = yLine ? yLine.match(/(\d+(\.\d+)?)/g) : [];
 

@@ -20,7 +20,7 @@ function MainBlock() {
 
     const handleFloatInputChange = (index, event) => {
         const newFloatValues = [...floatValues];
-        newFloatValues[index] = parseFloat(event.target.value);
+        newFloatValues[index] = event.target.value;
         setFloatValues(newFloatValues);
     };
 

@@ -71,7 +71,6 @@ def run_methods(f, exact_y, x0, xn, y0, h, eps, n):
         print('-' * 30)
 
 
-
 def euler_method(f, xs, y0, eps):
     x0 = xs[0]
     xn = xs[-1]
