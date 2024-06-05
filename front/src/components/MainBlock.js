@@ -63,19 +63,19 @@ function MainBlock() {
     };
 
     const handleFloatInputChange = (event) => {
-        setFloatValue(parseFloat(event.target.value));
+        setFloatValue(event.target.value);
     };
 
     const handleAInputChange = (event) => {
-        setAValue(parseFloat(event.target.value));
+        setAValue(event.target.value);
     };
 
     const handleBInputChange = (event) => {
-        setBValue(parseFloat(event.target.value));
+        setBValue(event.target.value);
     };
 
     const handleCountInputChange = (event) => {
-        setCountValue(parseInt(event.target.value, 10));
+        setCountValue(event.target.value);
     };
 
     const handleFuncChange = (funcType) => {
