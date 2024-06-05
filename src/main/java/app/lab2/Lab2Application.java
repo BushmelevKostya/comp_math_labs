@@ -28,27 +28,22 @@ public class Lab2Application {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/submit")
 	public String submit(@RequestBody SubmitRequest request) {
-		List<Map<String, Double>> pairs = request.pairs();
-		Float x = request.x();
+		System.out.println(request);
+		List<Float> floatList = request.floatValues();
+		Integer n = request.intValue();
 		String func = request.selectedFunc();
-		Float a = request.a();
-		Float b = request.b();
-		Integer count = request.count();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-		map.add("pairs", pairs.toString());
-		if (x != null) {
-			map.add("x", x.toString());
+		map.add("floatList", floatList.toString());
+		if (n != null) {
+			map.add("n", n.toString());
 		} else {
-			map.add("x", "0");
+			map.add("n", "0");
 		}
-		if (func != null && a != null && b != null && count != null){
+		if (func != null){
 			map.add("func", func);
-			map.add("a", a.toString());
-			map.add("b", b.toString());
-			map.add("count", count.toString());
 		}
 //		System.out.println(pairs);
 		

@@ -13,6 +13,7 @@ public class PythonController {
 	@PostMapping("api/run-python-script")
 	public String runPythonScript(@RequestBody String pairs) {
 		try {
+			System.out.println(pairs);
 			String currentDir = System.getProperty("user.dir");
 			String scriptPath;
 			String launchCommand;

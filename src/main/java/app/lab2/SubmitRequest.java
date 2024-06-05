@@ -4,4 +4,4 @@ import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 
-public record SubmitRequest(List<Map<String, Double>> pairs, Float x, String selectedFunc, Float a, Float b, Integer count) {}
+public record SubmitRequest(List<Float> floatValues, Integer intValue, String selectedFunc) {}
